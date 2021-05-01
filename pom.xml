@@ -5,7 +5,7 @@
   <groupId>io.jstate</groupId>
   <artifactId>jstate-parent</artifactId>
   <name>Jstate - Parent pom</name>
-  <version>0.0.0</version>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <description>JState is a framework for managing processes an their states with java</description>
