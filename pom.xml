@@ -29,7 +29,7 @@
   </licenses>
 
   <scm>
-    <url>https://github.com/andreashauschild/jstateio</url>
+    <url>git@github.com:andreashauschild/jstateio.git</url>
     <connection>scm:git:git://github.com/andreashauschild/jstateio.git</connection>
     <developerConnection>scm:git:ssh://github.com:andreashauschild/jstateio.git</developerConnection>
 
