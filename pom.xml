@@ -27,9 +27,9 @@
   </licenses>
 
   <scm>
-    <url>git@github.com:andreashauschild/jstateio.git</url>
-    <connection>scm:git:git://github.com/andreashauschild/jstateio.git</connection>
-    <developerConnection>scm:git:ssh://github.com:andreashauschild/jstateio.git</developerConnection>
+    <url>scm:git:ssh://github.com/andreashauschild/jstateio.git</url>
+    <connection>scm:git:ssh://github.com/andreashauschild/jstateio.git</connection>
+    <developerConnection>scm:git:ssh://github.com/andreashauschild/jstateio.git</developerConnection>
 
     <tag>jstate-parent-0.0.0</tag>
   </scm>
