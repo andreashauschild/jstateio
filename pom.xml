@@ -5,7 +5,7 @@
   <groupId>io.jstate</groupId>
   <artifactId>jstate-parent</artifactId>
   <name>Jstate - Parent pom</name>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.2</version>
   <packaging>pom</packaging>
 
   <description>JState is a framework for managing processes an their states with java</description>
@@ -30,7 +30,7 @@
     <url>https://github.com/andreashauschild/jstateio</url>
     <connection>scm:git:ssh://git@github.com/andreashauschild/jstateio.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/andreashauschild/jstateio.git</developerConnection>
-    <tag>jstate-parent-0.0.0</tag>
+    <tag>v0.0.2</tag>
   </scm>
 
   <issueManagement>
