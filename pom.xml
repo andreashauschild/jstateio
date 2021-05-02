@@ -97,12 +97,10 @@
           <artifactId>maven-release-plugin</artifactId>
           <version>3.0.0-M4</version>
           <configuration>
-            <configuration>
-              <goals>deploy</goals>
-              <tagNameFormat>v@{project.version}</tagNameFormat>
-              <autoVersionSubmodules>true</autoVersionSubmodules>
-              <releaseProfiles>releases</releaseProfiles>
-            </configuration>
+            <goals>deploy</goals>
+            <tagNameFormat>v@{project.version}</tagNameFormat>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+            <releaseProfiles>release</releaseProfiles>
           </configuration>
         </plugin>
       </plugins>
