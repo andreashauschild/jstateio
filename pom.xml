@@ -5,7 +5,7 @@
   <groupId>io.jstate</groupId>
   <artifactId>jstate-parent</artifactId>
   <name>Jstate - Parent pom</name>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
   <packaging>pom</packaging>
 
   <description>JState is a framework for managing processes an their states with java</description>
@@ -30,7 +30,7 @@
     <url>https://github.com/andreashauschild/jstateio</url>
     <connection>scm:git:ssh://git@github.com/andreashauschild/jstateio.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/andreashauschild/jstateio.git</developerConnection>
-    <tag>jstate-parent-0.0.0</tag>
+    <tag>jstate-parent-0.0.1</tag>
   </scm>
 
   <issueManagement>
@@ -163,10 +163,7 @@
                 <id>release</id>
                 <properties>
                     <gpg.useagent>false</gpg.useagent>
-                    <gpg.executable>/usr/local/Cellar/gnupg@1.4/1.4.23_1/bin/gpg1</gpg.executable> <- use gpg1 on Mac OS X
-                    <gpg.homedir>~/.gnupg</gpg.homedir>  <- Update to your own directory
-                    <gpg.passphrase>******</gpg.passphrase> <- Add your passphrase
-                </properties>
+                    <gpg.executable>/usr/local/Cellar/gnupg@1.4/1.4.23_1/bin/gpg1</gpg.executable> <- use gpg1 on Mac OS X <gpg.homedir>~/.gnupg</gpg.homedir>  <- Update to your own directory <gpg.passphrase>******</gpg.passphrase> <- Add your passphrase </properties>
             </profile>
              -->
             <groupId>org.apache.maven.plugins</groupId>
