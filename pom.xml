@@ -59,31 +59,14 @@
   </modules>
 
 
-  <repositories>
-    <repository>
-      <id>central</id>
-      <name>Maven Repository Switchboard</name>
-      <url>https://repo.maven.apache.org/maven2</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>ossrh</id>
-      <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>
-
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.sonatype.plugins</groupId>
+          <artifactId>nexus-staging-maven-plugin</artifactId>
+          <version>${nexus-staging-maven-plugin.version}</version>
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
@@ -126,6 +109,13 @@
     </pluginManagement>
   </build>
 
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+
   <profiles>
     <profile>
       <id>release</id>
@@ -134,14 +124,11 @@
           <plugin>
             <groupId>org.sonatype.plugins</groupId>
             <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>${nexus-staging-maven-plugin.version}</version>
             <extensions>true</extensions>
             <configuration>
-              <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
               <serverId>ossrh</serverId>
-              <autoReleaseAfterClose>false</autoReleaseAfterClose>
-              <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
-              <stagingProgressTimeoutMinutes>60</stagingProgressTimeoutMinutes>
+              <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
             </configuration>
           </plugin>
           <plugin>
@@ -168,32 +155,32 @@
               </execution>
             </executions>
           </plugin>
-          <!--          <plugin>-->
-          <!--            &lt;!&ndash;-->
-          <!--            ## IMPORTANT ##-->
-          <!--            In your ~/.m2/settings.xml you need to add and edit the following profile:-->
-          <!--            <profile>-->
-          <!--                <id>release</id>-->
-          <!--                <properties>-->
-          <!--                    <gpg.useagent>false</gpg.useagent>-->
-          <!--                    <gpg.executable>/usr/local/Cellar/gnupg@1.4/1.4.23_1/bin/gpg1</gpg.executable> <- use gpg1 on Mac OS X-->
-          <!--                    <gpg.homedir>~/.gnupg</gpg.homedir>  <- Update to your own directory-->
-          <!--                    <gpg.passphrase>******</gpg.passphrase> <- Add your passphrase-->
-          <!--                </properties>-->
-          <!--            </profile>-->
-          <!--             &ndash;&gt;-->
-          <!--            <groupId>org.apache.maven.plugins</groupId>-->
-          <!--            <artifactId>maven-gpg-plugin</artifactId>-->
-          <!--            <executions>-->
-          <!--              <execution>-->
-          <!--                <id>sign-artifacts</id>-->
-          <!--                <phase>verify</phase>-->
-          <!--                <goals>-->
-          <!--                  <goal>sign</goal>-->
-          <!--                </goals>-->
-          <!--              </execution>-->
-          <!--            </executions>-->
-          <!--          </plugin>-->
+          <plugin>
+            <!--
+            ## IMPORTANT ##
+            In your ~/.m2/settings.xml you need to add and edit the following profile:
+            <profile>
+                <id>release</id>
+                <properties>
+                    <gpg.useagent>false</gpg.useagent>
+                    <gpg.executable>/usr/local/Cellar/gnupg@1.4/1.4.23_1/bin/gpg1</gpg.executable> <- use gpg1 on Mac OS X
+                    <gpg.homedir>~/.gnupg</gpg.homedir>  <- Update to your own directory
+                    <gpg.passphrase>******</gpg.passphrase> <- Add your passphrase
+                </properties>
+            </profile>
+             -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
         </plugins>
       </build>
     </profile>
