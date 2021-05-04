@@ -7,6 +7,6 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>api</artifactId>
+  <artifactId>jstate-api</artifactId>
 
 </project>

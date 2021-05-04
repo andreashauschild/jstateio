@@ -7,7 +7,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>core</artifactId>
+  <artifactId>jstate-core</artifactId>
 
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
@@ -19,6 +19,17 @@
       <groupId>io.jstate</groupId>
       <artifactId>api</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.jstate</groupId>
+      <artifactId>jstate-spi</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.jstate</groupId>
+      <artifactId>jstate-model</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 

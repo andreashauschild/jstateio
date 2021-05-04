@@ -49,12 +49,15 @@
 
   <modules>
     <!-- Core components -->
-    <module>api</module>
-    <module>spi</module>
-    <module>core</module>
+    <module>jstate-model</module>
+    <module>jstate-api</module>
+    <module>jstate-spi</module>
+    <module>jstate-core</module>
 
     <!-- Extensions -->
     <module>extensions</module>
+    <module>jstate-test</module>
+
 
   </modules>
 
@@ -100,6 +103,7 @@
             <goals>deploy</goals>
             <tagNameFormat>v@{project.version}</tagNameFormat>
             <autoVersionSubmodules>true</autoVersionSubmodules>
+            <!-- We don't use default maven deploy. We uses nexus staging within release profile            -->
             <releaseProfiles>release</releaseProfiles>
           </configuration>
         </plugin>
@@ -127,6 +131,8 @@
             <configuration>
               <serverId>ossrh</serverId>
               <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+
+              <!-- if this is true a successful release is pushed to maven central-->
               <autoReleaseAfterClose>false</autoReleaseAfterClose>
             </configuration>
           </plugin>
@@ -162,7 +168,8 @@
                 <id>release</id>
                 <properties>
                     <gpg.useagent>false</gpg.useagent>
-                    <gpg.executable>/usr/local/Cellar/gnupg@1.4/1.4.23_1/bin/gpg1</gpg.executable> <- use gpg1 on Mac OS X <gpg.homedir>~/.gnupg</gpg.homedir>  <- Update to your own directory <gpg.passphrase>******</gpg.passphrase> <- Add your passphrase </properties>
+                    <gpg.keyname>F842A180B70A4A0A4A685EA6BF8B79B1E074891D</gpg.keyname>
+                    <gpg.executable>gpg</properties>
             </profile>
              -->
             <groupId>org.apache.maven.plugins</groupId>

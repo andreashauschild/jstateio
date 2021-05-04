@@ -1,0 +1,34 @@
+{
+  "$schema": "ProcessDefinition-schema.json",
+  "id": "id_1",
+  "name": "ConvertImagesToMpeg",
+  "states": [
+    {
+      "id": "copyImagesToWorkingDir"
+    },
+    {
+      "id": "createMpegFromImages"
+    },
+    {
+      "id": "uploadMpegToServer"
+    },
+    {
+      "id": "cleanupWorkingDir"
+    }
+  ],
+  "transitions": [
+    {
+      "fromStateId": "",
+      "toStateId": "copyImagesToWorkingDir"
+    },
+    {
+      "fromStateId": "copyImagesToWorkingDir",
+      "toStateId": "createMpegFromImages"
+    },
+    {
+      "fromStateId": "createMpegFromImages",
+      "toStateId": "uploadMpegToServer"
+    }
+  ],
+  "processors": ["io.jstate.test.BasicFunctionTestProcessor"]
+}

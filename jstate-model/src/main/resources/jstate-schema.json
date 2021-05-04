@@ -1,0 +1,21 @@
+{
+  "$schema": "ProcessDefinition-schema.json",
+  "id": "id_1",
+  "name": "Process1",
+  "states": [
+    {
+      "id": "state1"
+    },
+    {
+      "id": "state2"
+    }
+  ],
+  "beginStateIds": [
+    "state1"
+  ],
+  "xxxx": [
+    {
+      "id": ""
+    }
+  ]
+}

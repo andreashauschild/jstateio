@@ -1,0 +1,52 @@
+{
+  "$schema" : "http://json-schema.org/draft-07/schema#",
+  "type" : "object",
+  "properties" : {
+    "id" : {
+      "type" : "string"
+    },
+    "name" : {
+      "type" : "string"
+    },
+    "processors" : {
+      "type" : "array",
+      "items" : {
+        "type" : "string"
+      }
+    },
+    "states" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "processors" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      }
+    },
+    "transitions" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "fromStateId" : {
+            "type" : "string"
+          },
+          "toStateId" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}
