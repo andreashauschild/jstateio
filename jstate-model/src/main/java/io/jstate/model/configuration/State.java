@@ -6,7 +6,9 @@ import java.util.List;
 public class State {
 
     private String id;
-    private String name;
+
+    private String description;
+
     private List<String> processors = new ArrayList<>();
 
     /**
@@ -33,29 +35,6 @@ public class State {
     }
 
     /**
-     * Gets the value of the name property.
-     *
-     * @return possible object is {@link String}
-     */
-    public String getName() {
-
-        return name;
-    }
-
-    /**
-     * Sets the value of the name property
-     *
-     * @param name
-     *            allowed object is {@link String }
-     * @return the {@link State}
-     */
-    public State setName(String name) {
-
-        this.name = name;
-        return this;
-    }
-
-    /**
      * Gets the value of the processors property.
      *
      * @return possible object is {@link List< String>}
@@ -75,6 +54,29 @@ public class State {
     public State setProcessors(List<String> processors) {
 
         this.processors = processors;
+        return this;
+    }
+
+    /**
+     * Gets the value of the description property.
+     *
+     * @return possible object is {@link String}
+     */
+    public String getDescription() {
+
+        return description;
+    }
+
+    /**
+     * Sets the value of the description property
+     *
+     * @param description
+     *            allowed object is {@link String }
+     * @return the {@link State}
+     */
+    public State setDescription(String description) {
+
+        this.description = description;
         return this;
     }
 }

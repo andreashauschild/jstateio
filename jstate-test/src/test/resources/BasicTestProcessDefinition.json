@@ -1,7 +1,6 @@
 {
-  "$schema": "ProcessDefinition-schema.json",
+  "$schema": "ProcessTemplate-schema.json",
   "id": "id_1",
-  "name": "ConvertImagesToMpeg",
   "states": [
     {
       "id": "copyImagesToWorkingDir"

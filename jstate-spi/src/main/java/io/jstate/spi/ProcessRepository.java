@@ -1,8 +1,7 @@
 package io.jstate.spi;
 
-import io.jstate.model.configuration.ProcessDefinition;
-
 import java.util.List;
+import java.util.Map;
 
 public interface ProcessRepository {
 
@@ -14,7 +13,7 @@ public interface ProcessRepository {
 
     void cancelProcessInstanceReservation(String reservationId);
 
-    ProcessInstance createProcessInstance(String processDefinitionId);
+    ProcessInstance createProcessInstance(String processDefinitionId, Map<String, String> initialProperties);
 
     List<ProcessInstance> findProcessInstance(ProcessInstanceQuery query);
 

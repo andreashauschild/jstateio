@@ -14,7 +14,7 @@ public class JsonSchemaGenerator {
         SchemaGeneratorConfigBuilder configBuilder = new SchemaGeneratorConfigBuilder(SchemaVersion.DRAFT_2019_09, OptionPreset.PLAIN_JSON);
         SchemaGeneratorConfig config = configBuilder.build();
         SchemaGenerator generator = new SchemaGenerator(config);
-        JsonNode jsonSchema = generator.generateSchema(ProcessDefinition.class);
+        JsonNode jsonSchema = generator.generateSchema(ProcessTemplate.class);
 
         System.out.println(jsonSchema.toString());
     }

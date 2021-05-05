@@ -3,11 +3,11 @@ package io.jstate.model.configuration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProcessDefinition {
+public class ProcessTemplate {
 
     private String id;
 
-    private String name;
+    private String description;
 
     private List<String> processors = new ArrayList<>();
 
@@ -30,34 +30,11 @@ public class ProcessDefinition {
      *
      * @param id
      *            allowed object is {@link String }
-     * @return the {@link ProcessDefinition}
+     * @return the {@link ProcessTemplate}
      */
-    public ProcessDefinition setId(String id) {
+    public ProcessTemplate setId(String id) {
 
         this.id = id;
-        return this;
-    }
-
-    /**
-     * Gets the value of the name property.
-     *
-     * @return possible object is {@link String}
-     */
-    public String getName() {
-
-        return name;
-    }
-
-    /**
-     * Sets the value of the name property
-     *
-     * @param name
-     *            allowed object is {@link String }
-     * @return the {@link ProcessDefinition}
-     */
-    public ProcessDefinition setName(String name) {
-
-        this.name = name;
         return this;
     }
 
@@ -76,9 +53,9 @@ public class ProcessDefinition {
      *
      * @param transitions
      *            allowed object is {@link List< Transition> }
-     * @return the {@link ProcessDefinition}
+     * @return the {@link ProcessTemplate}
      */
-    public ProcessDefinition setTransitions(List<Transition> transitions) {
+    public ProcessTemplate setTransitions(List<Transition> transitions) {
 
         this.transitions = transitions;
         return this;
@@ -99,9 +76,9 @@ public class ProcessDefinition {
      *
      * @param states
      *            allowed object is {@link List< State> }
-     * @return the {@link ProcessDefinition}
+     * @return the {@link ProcessTemplate}
      */
-    public ProcessDefinition setStates(List<State> states) {
+    public ProcessTemplate setStates(List<State> states) {
 
         this.states = states;
         return this;
@@ -122,11 +99,34 @@ public class ProcessDefinition {
      *
      * @param processors
      *            allowed object is {@link List< String> }
-     * @return the {@link ProcessDefinition}
+     * @return the {@link ProcessTemplate}
      */
-    public ProcessDefinition setProcessors(List<String> processors) {
+    public ProcessTemplate setProcessors(List<String> processors) {
 
         this.processors = processors;
+        return this;
+    }
+
+    /**
+     * Gets the value of the description property.
+     *
+     * @return possible object is {@link String}
+     */
+    public String getDescription() {
+
+        return description;
+    }
+
+    /**
+     * Sets the value of the description property
+     *
+     * @param description
+     *            allowed object is {@link String }
+     * @return the {@link ProcessTemplate}
+     */
+    public ProcessTemplate setDescription(String description) {
+
+        this.description = description;
         return this;
     }
 }

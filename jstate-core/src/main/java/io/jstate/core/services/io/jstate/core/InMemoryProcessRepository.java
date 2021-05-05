@@ -8,8 +8,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import io.jstate.core.services.io.jstate.core.query.FindByCurrentState;
-import io.jstate.model.configuration.ProcessDefinition;
-import io.jstate.spi.ProcessDefinitionRepository;
+import io.jstate.model.configuration.ProcessTemplate;
+import io.jstate.spi.ProcessTemplateRepository;
 import io.jstate.spi.ProcessInstance;
 import io.jstate.spi.ProcessInstanceQuery;
 import io.jstate.spi.ProcessRepository;
@@ -21,10 +21,12 @@ public class InMemoryProcessRepository implements ProcessRepository {
 
     private Map<String, ProcessInstance> instances = new HashMap<>();
 
-    private ProcessDefinitionRepository definitionRepository;
+    private ProcessTemplateRepository definitionRepository;
 
-    public InMemoryProcessRepository(ProcessDefinitionRepository definitionRepository) {
+    private ProcessInstanceFactory factory;
 
+    public InMemoryProcessRepository(ProcessTemplateRepository definitionRepository,ProcessInstanceFactory factory) {
+        this.factory = factory;
         this.definitionRepository = definitionRepository;
     }
 
@@ -94,13 +96,15 @@ public class InMemoryProcessRepository implements ProcessRepository {
     }
 
     @Override
-    public ProcessInstance createProcessInstance(String processDefinitionId) {
+    public ProcessInstance createProcessInstance(String processDefinitionId,Map<String, String> initialProperties) {
 
-        ProcessDefinition processDefinition = this.definitionRepository.getProcessDefinition(processDefinitionId);
-        if (processDefinition != null) {
+        ProcessTemplate processTemplate = this.definitionRepository.getProcessTemplate(processDefinitionId);
+        if (processTemplate != null) {
             // TODO define exception
             throw new RuntimeException("ProcessDefinition with id " + processDefinitionId + " does not exists");
         }
+        ProcessInstance processInstance = factory.newProcessInstance(processTemplate, initialProperties);
+
 
         return null;
     }

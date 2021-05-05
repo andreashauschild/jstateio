@@ -44,7 +44,7 @@
           </execution>
         </executions>
         <configuration>
-          <classNames>io/jstate/model/configuration/ProcessDefinition</classNames>
+          <classNames>io/jstate/model/configuration/ProcessTemplate</classNames>
         </configuration>
       </plugin>
     </plugins>
