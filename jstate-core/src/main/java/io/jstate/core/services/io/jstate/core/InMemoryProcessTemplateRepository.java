@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static io.jstate.core.services.io.jstate.core.ObjectUtil.cloneObject;
+import static io.jstate.core.services.io.jstate.core.misc.JStateUtil.cloneObject;
 
 public class InMemoryProcessTemplateRepository implements ProcessTemplateRepository {
 
@@ -44,9 +44,8 @@ public class InMemoryProcessTemplateRepository implements ProcessTemplateReposit
     @Override
     public ProcessTemplate createProcessTemplate(ProcessTemplate processTemplate) {
 
-        String uuid = UUID.randomUUID().toString();
-        this.instances.put(uuid, cloneObject(processTemplate));
-        return getProcessTemplate(uuid);
+        this.instances.put(processTemplate.getId(), cloneObject(processTemplate));
+        return getProcessTemplate(processTemplate.getId());
     }
 
     @Override

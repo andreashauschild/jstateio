@@ -11,7 +11,7 @@ public class ProcessInstance implements Serializable {
 
     private String id;
 
-    private String processDefinitionId;
+    private String processTemplateId;
 
     private String reservationId;
 
@@ -168,21 +168,21 @@ public class ProcessInstance implements Serializable {
      *
      * @return possible object is {@link String}
      */
-    public String getProcessDefinitionId() {
+    public String getProcessTemplateId() {
 
-        return processDefinitionId;
+        return processTemplateId;
     }
 
     /**
      * Sets the value of the processDefinitionId property
      *
-     * @param processDefinitionId
+     * @param processTemplateId
      *            allowed object is {@link String }
      * @return the {@link ProcessInstance}
      */
-    public ProcessInstance setProcessDefinitionId(String processDefinitionId) {
+    public ProcessInstance setProcessTemplateId(String processTemplateId) {
 
-        this.processDefinitionId = processDefinitionId;
+        this.processTemplateId = processTemplateId;
         return this;
     }
 
@@ -192,16 +192,19 @@ public class ProcessInstance implements Serializable {
      * @return possible object is {@link LocalDateTime}
      */
     public LocalDateTime getCreated() {
+
         return created;
     }
 
     /**
      * Sets the value of the created property
      *
-     * @param created allowed object is {@link LocalDateTime }
+     * @param created
+     *            allowed object is {@link LocalDateTime }
      * @return the {@link ProcessInstance}
      */
     public ProcessInstance setCreated(LocalDateTime created) {
+
         this.created = created;
         return this;
     }
@@ -212,17 +215,46 @@ public class ProcessInstance implements Serializable {
      * @return possible object is {@link LocalDateTime}
      */
     public LocalDateTime getLastUpdate() {
+
         return lastUpdate;
     }
 
     /**
      * Sets the value of the lastUpdate property
      *
-     * @param lastUpdate allowed object is {@link LocalDateTime }
+     * @param lastUpdate
+     *            allowed object is {@link LocalDateTime }
      * @return the {@link ProcessInstance}
      */
     public ProcessInstance setLastUpdate(LocalDateTime lastUpdate) {
+
         this.lastUpdate = lastUpdate;
         return this;
+    }
+
+    @Override
+    public String toString() {
+
+        return "ProcessInstance{"
+                + "id='"
+                + id
+                + '\''
+                + ", processDefinitionId='"
+                + processTemplateId
+                + '\''
+                + ", reservationId='"
+                + reservationId
+                + '\''
+                + ", reservationTime="
+                + reservationTime
+                + ", created="
+                + created
+                + ", lastUpdate="
+                + lastUpdate
+                + ", states="
+                + states
+                + ", properties="
+                + properties
+                + '}';
     }
 }

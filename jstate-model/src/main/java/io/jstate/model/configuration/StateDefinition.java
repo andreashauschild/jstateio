@@ -1,9 +1,10 @@
 package io.jstate.model.configuration;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class State {
+public class StateDefinition implements Serializable {
 
     private String id;
 
@@ -26,9 +27,9 @@ public class State {
      *
      * @param id
      *            allowed object is {@link String }
-     * @return the {@link State}
+     * @return the {@link StateDefinition}
      */
-    public State setId(String id) {
+    public StateDefinition setId(String id) {
 
         this.id = id;
         return this;
@@ -49,9 +50,9 @@ public class State {
      *
      * @param processors
      *            allowed object is {@link List< String> }
-     * @return the {@link State}
+     * @return the {@link StateDefinition}
      */
-    public State setProcessors(List<String> processors) {
+    public StateDefinition setProcessors(List<String> processors) {
 
         this.processors = processors;
         return this;
@@ -72,9 +73,9 @@ public class State {
      *
      * @param description
      *            allowed object is {@link String }
-     * @return the {@link State}
+     * @return the {@link StateDefinition}
      */
-    public State setDescription(String description) {
+    public StateDefinition setDescription(String description) {
 
         this.description = description;
         return this;

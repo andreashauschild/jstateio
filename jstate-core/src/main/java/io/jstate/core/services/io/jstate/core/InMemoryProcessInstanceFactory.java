@@ -2,13 +2,15 @@ package io.jstate.core.services.io.jstate.core;
 
 import io.jstate.model.configuration.ProcessTemplate;
 import io.jstate.spi.ProcessInstance;
+import io.jstate.spi.ProcessInstanceFactory;
 
 import java.time.LocalDateTime;
 import java.util.Map;
 
-public class ProcessInstanceFactory {
+public class InMemoryProcessInstanceFactory implements ProcessInstanceFactory {
 
-    public ProcessInstance newProcessInstance(ProcessTemplate template, Map<String, String> initialProperties) {
+    @Override
+    public ProcessInstance create(ProcessTemplate template, Map<String, String> initialProperties) {
 
         if (template == null) {
             // TODO define exception
@@ -16,12 +18,11 @@ public class ProcessInstanceFactory {
         }
 
         ProcessInstance processInstance = new ProcessInstance();
-        processInstance.setProcessDefinitionId(template.getId());
+        processInstance.setProcessTemplateId(template.getId());
         processInstance.setCreated(LocalDateTime.now());
         processInstance.setLastUpdate(LocalDateTime.now());
         processInstance.setProperties(initialProperties);
 
         return processInstance;
-
     }
 }

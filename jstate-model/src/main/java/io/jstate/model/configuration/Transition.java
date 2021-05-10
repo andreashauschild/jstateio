@@ -1,9 +1,13 @@
 package io.jstate.model.configuration;
 
-public class Transition {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Transition implements Serializable {
 
     private String fromStateId;
-    private String toStateId;
+    private List<String> toStateIds = new ArrayList<>();
 
     /**
      * Gets the value of the fromStateId property.
@@ -29,25 +33,25 @@ public class Transition {
     }
 
     /**
-     * Gets the value of the toStateId property.
+     * Gets the value of the toStateIds property.
      *
-     * @return possible object is {@link String}
+     * @return possible object is {@link List< String>}
      */
-    public String getToStateId() {
+    public List<String> getToStateIds() {
 
-        return toStateId;
+        return toStateIds;
     }
 
     /**
-     * Sets the value of the toStateId property
+     * Sets the value of the toStateIds property
      *
-     * @param toStateId
-     *            allowed object is {@link String }
+     * @param toStateIds
+     *            allowed object is {@link List< String> }
      * @return the {@link Transition}
      */
-    public Transition setToStateId(String toStateId) {
+    public Transition setToStateIds(List<String> toStateIds) {
 
-        this.toStateId = toStateId;
+        this.toStateIds = toStateIds;
         return this;
     }
 }

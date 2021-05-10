@@ -1,11 +1,20 @@
-package io.jstate.core.services.io.jstate.core;
+package io.jstate.core.services.io.jstate.core.misc;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
-public class ObjectUtil {
+public class JStateUtil {
+
+    public static String toString(Throwable e) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        return sw.toString();
+    }
 
     public static <T> T cloneObject(T object) {
 
@@ -25,4 +34,6 @@ public class ObjectUtil {
         }
 
     }
+
+
 }
