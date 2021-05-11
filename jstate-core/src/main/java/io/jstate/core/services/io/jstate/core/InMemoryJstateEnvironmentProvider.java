@@ -1,6 +1,7 @@
 package io.jstate.core.services.io.jstate.core;
 
 import io.jstate.spi.JstateEnvironmentProvider;
+import io.jstate.spi.JstateValidationService;
 import io.jstate.spi.ProcessInstanceFactory;
 import io.jstate.spi.ProcessRepository;
 import io.jstate.spi.ProcessTemplateRepository;
@@ -57,14 +58,20 @@ public class InMemoryJstateEnvironmentProvider implements JstateEnvironmentProvi
 
     @Override
     public ProcessorFactory getProcessorFactory() {
+
         return null;
     }
-
 
     @Override
     public ExecutorService getExecutorService() {
 
         return executor;
+    }
+
+    @Override
+    public JstateValidationService getJstateValidationService() {
+
+        return new DefaultJstateValidationService(templateRepository);
     }
 
 }

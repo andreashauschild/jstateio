@@ -132,4 +132,10 @@ public class State implements Serializable {
         this.end = end;
         return this;
     }
+
+    @Override
+    public String toString() {
+
+        return "State{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", begin=" + begin + ", end=" + end + ", properties=" + properties + '}';
+    }
 }

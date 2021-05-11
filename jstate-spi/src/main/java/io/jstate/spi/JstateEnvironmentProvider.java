@@ -13,4 +13,6 @@ public interface JstateEnvironmentProvider {
     ProcessorFactory getProcessorFactory();
 
     ExecutorService getExecutorService();
+
+    JstateValidationService getJstateValidationService();
 }

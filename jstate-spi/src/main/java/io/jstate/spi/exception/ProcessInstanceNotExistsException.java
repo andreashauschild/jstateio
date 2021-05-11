@@ -1,6 +1,4 @@
-package io.jstate.core.services.io.jstate.core.exception;
-
-import io.jstate.spi.ProcessInstance;
+package io.jstate.spi.exception;
 
 public class ProcessInstanceNotExistsException extends RuntimeException {
 

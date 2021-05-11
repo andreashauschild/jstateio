@@ -1,20 +1,27 @@
 package io.jstate.core.services.io.jstate.core;
 
 import static io.jstate.spi.DefaultStates.FINAL;
+import static io.jstate.spi.DefaultStates.NEW;
 import static java.util.Arrays.asList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 
+import io.jstate.model.configuration.ProcessorDefinition;
+import io.jstate.model.configuration.StateDefinition;
+import io.jstate.spi.JstateValidationService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -47,22 +54,17 @@ class ProcessExecutorTest {
     @Mock
     JstateValidationService validationService;
 
-    @InjectMocks
     ProcessExecutor subject = new ProcessExecutor(mockProvider());
+
+    @Captor
+    ArgumentCaptor<State> stateCaptor;
 
     @Test
     @DisplayName("Execute the process from NEW->STATE1->STATE2->FINAL in a single execution.")
-    void test_0001() throws IOException, InterruptedException {
+    void test_0001() throws Exception {
 
-        // @formatter:off
-        ProcessTemplate processTemplate = new ProcessTemplate().setTransitions(
-                asList(
-                        transition("NEW", "STATE1"),
-                        transition("STATE1", "STATE2"),
-                        transition("STATE2", FINAL)
-                )
-        );
-        // @formatter:on
+
+        ProcessTemplate processTemplate = new ProcessTemplate().setProcessors(asList(new ProcessorDefinition()));
 
         State newState = new NewState(new HashMap<>());
         State state1 = new State().setId("STATE1");
@@ -81,7 +83,7 @@ class ProcessExecutorTest {
         when(this.templateRepository.getProcessTemplate(any())).thenReturn(processTemplate);
 
         when(this.processorFactory.create(any(), any())).thenReturn((Processor) processInstance -> {
-
+            System.out.println(processInstance);
             if (processInstance.getCurrentState().getId().equals(newState.getId())) {
                 return state1;
             }
@@ -91,11 +93,19 @@ class ProcessExecutorTest {
             if (processInstance.getCurrentState().getId().equals(state2.getId())) {
                 return finalState;
             }
-            Assertions.fail("Should never be reached");
+            Assertions.fail("Should never be reached. Processing ends with FINAL State");
             return null;
         });
 
         this.subject.execute("id");
+
+
+        verify(this.processRepository,times(3)).updateProcessInstance(any(),stateCaptor.capture());
+
+        assertEquals(state1,stateCaptor.getAllValues().get(0));
+        assertEquals(state2,stateCaptor.getAllValues().get(1));
+        assertEquals(finalState,stateCaptor.getAllValues().get(2));
+
     }
 
     private Transition transition(String from, String to) {
@@ -135,6 +145,12 @@ class ProcessExecutorTest {
             public ExecutorService getExecutorService() {
 
                 return null;
+            }
+
+            @Override
+            public JstateValidationService getJstateValidationService() {
+
+                return validationService;
             }
         };
 

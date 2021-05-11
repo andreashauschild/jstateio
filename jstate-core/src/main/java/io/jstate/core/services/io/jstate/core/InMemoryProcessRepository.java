@@ -9,8 +9,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import io.jstate.core.services.io.jstate.core.exception.AlreadyReservedException;
-import io.jstate.core.services.io.jstate.core.exception.ProcessInstanceNotExistsException;
+import io.jstate.spi.exception.AlreadyReservedException;
+import io.jstate.spi.exception.ProcessInstanceNotExistsException;
 import io.jstate.core.services.io.jstate.core.query.FindByCurrentState;
 import io.jstate.core.services.io.jstate.core.query.GetAllUnReserved;
 import io.jstate.model.configuration.ProcessTemplate;

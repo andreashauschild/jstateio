@@ -1,4 +1,4 @@
-package io.jstate.core.services.io.jstate.core.exception;
+package io.jstate.spi.exception;
 
 import io.jstate.spi.ProcessInstance;
 
