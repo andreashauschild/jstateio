@@ -1,22 +1,21 @@
 package io.jstate.core.services.io.jstate.core;
 
-import io.jstate.model.configuration.ProcessTemplate;
-import io.jstate.spi.ProcessDefinitionQuery;
-import io.jstate.spi.ProcessTemplateRepository;
+import static io.jstate.core.services.io.jstate.core.misc.JStateUtil.cloneObject;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-import static io.jstate.core.services.io.jstate.core.misc.JStateUtil.cloneObject;
+import io.jstate.model.configuration.ProcessTemplate;
+import io.jstate.spi.ProcessDefinitionQuery;
+import io.jstate.spi.ProcessTemplateRepository;
 
 public class InMemoryProcessTemplateRepository implements ProcessTemplateRepository {
 
-    private Map<String, ProcessTemplate> instances = new HashMap<>();
+    private final Map<String, ProcessTemplate> instances = new HashMap<>();
 
     @Override
-    public ProcessTemplate updateProcessTemplate(String id, ProcessTemplate definition) {
+    public ProcessTemplate updateProcessTemplate(final String id, final ProcessTemplate definition) {
 
         if (id == null) {
             throw new RuntimeException("Error: Missing id");
@@ -26,7 +25,7 @@ public class InMemoryProcessTemplateRepository implements ProcessTemplateReposit
             throw new RuntimeException("Error: Missing definition");
         }
 
-        if (instances.containsKey(id)) {
+        if (this.instances.containsKey(id)) {
             this.instances.put(id, definition);
             return cloneObject(this.instances.get(id));
         }
@@ -36,26 +35,26 @@ public class InMemoryProcessTemplateRepository implements ProcessTemplateReposit
     }
 
     @Override
-    public ProcessTemplate getProcessTemplate(String id) {
+    public ProcessTemplate getProcessTemplate(final String id) {
 
         return cloneObject(this.instances.get(id));
     }
 
     @Override
-    public ProcessTemplate createProcessTemplate(ProcessTemplate processTemplate) {
+    public ProcessTemplate createProcessTemplate(final ProcessTemplate processTemplate) {
 
         this.instances.put(processTemplate.getId(), cloneObject(processTemplate));
         return getProcessTemplate(processTemplate.getId());
     }
 
     @Override
-    public List<ProcessTemplate> findProcessTemplate(ProcessDefinitionQuery query) {
+    public List<ProcessTemplate> findProcessTemplate(final ProcessDefinitionQuery query) {
 
         return null;
     }
 
     @Override
-    public boolean deleteProcessTemplate(String id) {
+    public boolean deleteProcessTemplate(final String id) {
 
         return this.instances.remove(id) != null;
     }

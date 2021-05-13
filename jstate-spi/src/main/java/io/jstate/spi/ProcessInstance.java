@@ -23,9 +23,21 @@ public class ProcessInstance implements Serializable {
 
     private List<State> states;
 
-    private Map<String, String> properties;
+    private int errorCount = 0;
 
-    public Map<String, String> getStateProperties() {
+    private boolean stopped = false;
+
+    /**
+     * Overall runtime of the process
+     */
+    private long runTime;
+
+    /**
+     * Sum of time that was need for executing a state
+     */
+    private long executionTime;
+
+    public Map<String, String> getProperties() {
 
         Map<String, String> result = new HashMap<>();
         for (State s : getStates()) {
@@ -40,32 +52,6 @@ public class ProcessInstance implements Serializable {
             return (T) getStates().get(getStates().size() - 1);
         }
         return null;
-    }
-
-    /**
-     * Gets the value of the properties property.
-     *
-     * @return possible object is {@link Map< String, String>}
-     */
-    public Map<String, String> getProperties() {
-
-        if (this.properties == null) {
-            this.properties = new HashMap<>();
-        }
-        return properties;
-    }
-
-    /**
-     * Sets the value of the properties property
-     *
-     * @param properties
-     *            allowed object is {@link Map< String, String> }
-     * @return the {@link State}
-     */
-    public ProcessInstance setProperties(Map<String, String> properties) {
-
-        this.properties = properties;
-        return this;
     }
 
     /**
@@ -232,29 +218,95 @@ public class ProcessInstance implements Serializable {
         return this;
     }
 
-    @Override
-    public String toString() {
+    /**
+     * Gets the value of the failCount property.
+     *
+     * @return possible object is int
+     */
+    public int getErrorCount() {
 
-        return "ProcessInstance{"
-                + "id='"
-                + id
-                + '\''
-                + ", processDefinitionId='"
-                + processTemplateId
-                + '\''
-                + ", reservationId='"
-                + reservationId
-                + '\''
-                + ", reservationTime="
-                + reservationTime
-                + ", created="
-                + created
-                + ", lastUpdate="
-                + lastUpdate
-                + ", states="
-                + states
-                + ", properties="
-                + properties
-                + '}';
+        return errorCount;
+    }
+
+    /**
+     * Sets the value of the failCount property
+     *
+     * @param errorCount
+     *            allowed object is int
+     * @return the {@link ProcessInstance}
+     */
+    public ProcessInstance setErrorCount(int errorCount) {
+
+        this.errorCount = errorCount;
+        return this;
+    }
+
+    /**
+     * Gets the value of the runtime property.
+     *
+     * @return possible object is long
+     */
+    public long getRunTime() {
+
+        return runTime;
+    }
+
+    /**
+     * Sets the value of the runtime property
+     *
+     * @param runTime
+     *            allowed object is long
+     * @return the {@link ProcessInstance}
+     */
+    public ProcessInstance setRunTime(long runTime) {
+
+        this.runTime = runTime;
+        return this;
+    }
+
+    /**
+     * Gets the value of the executionTime property.
+     *
+     * @return possible object is long
+     */
+    public long getExecutionTime() {
+
+        return executionTime;
+    }
+
+    /**
+     * Sets the value of the executionTime property
+     *
+     * @param executionTime
+     *            allowed object is long
+     * @return the {@link ProcessInstance}
+     */
+    public ProcessInstance setExecutionTime(long executionTime) {
+
+        this.executionTime = executionTime;
+        return this;
+    }
+
+    /**
+     * Gets the value of the stopped property.
+     *
+     * @return possible object is boolean
+     */
+    public boolean isStopped() {
+
+        return stopped;
+    }
+
+    /**
+     * Sets the value of the stopped property
+     *
+     * @param stopped
+     *            allowed object is boolean
+     * @return the {@link ProcessInstance}
+     */
+    public ProcessInstance setStopped(boolean stopped) {
+
+        this.stopped = stopped;
+        return this;
     }
 }

@@ -8,9 +8,10 @@
     {"id": "cleanupWorkingDir"}
   ],
   "transitions": [
-    {"fromStateId": "", "toStateIds": ["copyImagesToWorkingDir"]},
+    {"fromStateId": "NEW", "toStateIds": ["copyImagesToWorkingDir"]},
     {"fromStateId": "copyImagesToWorkingDir", "toStateIds": ["createMpegFromImages"]},
-    {"fromStateId": "createMpegFromImages", "toStateIds": ["uploadMpegToServer"]}
+    {"fromStateId": "createMpegFromImages", "toStateIds": ["uploadMpegToServer"]},
+    {"fromStateId": "uploadMpegToServer", "toStateIds": ["FINAL"]}
   ],
   "processors": [
     {

@@ -1,5 +1,6 @@
 package io.jstate.spi.exception;
 
+import io.jstate.model.configuration.ProcessTemplate;
 import io.jstate.spi.ProcessInstance;
 import io.jstate.spi.State;
 
@@ -19,6 +20,14 @@ public class TransitionNotAllowedException extends RuntimeException {
                 + "' with process template '"
                 + processInstance.getProcessTemplateId()
                 + "'");
+        this.stateFrom = stateFrom;
+        this.stateTo = stateTo;
+
+    }
+
+    public TransitionNotAllowedException(ProcessTemplate processTemplate, State stateFrom, State stateTo) {
+
+        super("Transition from '" + stateFrom + "' to '" + stateTo + "' with process template '" + processTemplate.getId() + "'");
         this.stateFrom = stateFrom;
         this.stateTo = stateTo;
 

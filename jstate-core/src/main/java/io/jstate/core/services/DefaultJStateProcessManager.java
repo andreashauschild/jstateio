@@ -4,19 +4,18 @@ import java.util.List;
 import java.util.Map;
 
 import io.jstate.api.services.JStateProcessManager;
-import io.jstate.core.services.io.jstate.core.InMemoryJstateEnvironmentProvider;
+import io.jstate.core.services.io.jstate.core.DefaultJstateEnvironmentProvider;
 import io.jstate.core.services.io.jstate.core.query.GetAllUnReserved;
 import io.jstate.model.configuration.ProcessTemplate;
 import io.jstate.spi.JstateEnvironmentProvider;
 import io.jstate.spi.ProcessInstance;
-import io.jstate.spi.Processor;
 
 /**
  * Default implementation of {@link JStateProcessManager}
  */
 public class DefaultJStateProcessManager implements JStateProcessManager {
 
-    JstateEnvironmentProvider env = InMemoryJstateEnvironmentProvider.getInstance();
+    JstateEnvironmentProvider env = DefaultJstateEnvironmentProvider.getInstance();
 
     public DefaultJStateProcessManager() {
 

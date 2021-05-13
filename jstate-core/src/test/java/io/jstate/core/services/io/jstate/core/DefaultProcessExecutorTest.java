@@ -1,7 +1,5 @@
 package io.jstate.core.services.io.jstate.core;
 
-import static io.jstate.spi.DefaultStates.FINAL;
-import static io.jstate.spi.DefaultStates.NEW;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -9,13 +7,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.concurrent.ExecutorService;
 
-import io.jstate.model.configuration.ProcessorDefinition;
-import io.jstate.model.configuration.StateDefinition;
-import io.jstate.spi.JstateValidationService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,40 +22,35 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import io.jstate.core.services.io.jstate.core.state.FinalState;
 import io.jstate.core.services.io.jstate.core.state.NewState;
 import io.jstate.model.configuration.ProcessTemplate;
+import io.jstate.model.configuration.ProcessorDefinition;
 import io.jstate.model.configuration.Transition;
-import io.jstate.spi.JstateEnvironmentProvider;
 import io.jstate.spi.ProcessInstance;
-import io.jstate.spi.ProcessInstanceFactory;
-import io.jstate.spi.ProcessRepository;
-import io.jstate.spi.ProcessTemplateRepository;
 import io.jstate.spi.Processor;
 import io.jstate.spi.ProcessorFactory;
 import io.jstate.spi.State;
 
 @ExtendWith(MockitoExtension.class)
-class ProcessExecutorTest {
-
-    @Mock
-    ProcessRepository processRepository;
-
-    @Mock
-    ProcessTemplateRepository templateRepository;
+class DefaultProcessExecutorTest {
 
     @Mock
     ProcessorFactory processorFactory;
 
     @Mock
-    JstateValidationService validationService;
+    DefaultJstateService jstateService;
 
-    ProcessExecutor subject = new ProcessExecutor(mockProvider());
+    @InjectMocks
+    DefaultProcessExecutor subject;
 
     @Captor
     ArgumentCaptor<State> stateCaptor;
 
+
+
+
+
     @Test
     @DisplayName("Execute the process from NEW->STATE1->STATE2->FINAL in a single execution.")
     void test_0001() throws Exception {
-
 
         ProcessTemplate processTemplate = new ProcessTemplate().setProcessors(asList(new ProcessorDefinition()));
 
@@ -73,16 +61,15 @@ class ProcessExecutorTest {
         ProcessInstance instance = new ProcessInstance();
         instance.getStates().add(newState);
 
-        when(this.processRepository.reserveProcessInstance(any())).thenReturn(instance);
+        when(this.jstateService.getProcessTemplate(any())).thenReturn(processTemplate);
+        when(this.jstateService.reserveProcessInstance(any())).thenReturn(instance);
 
-        when(this.processRepository.updateProcessInstance(any(), any())).thenAnswer((param) -> {
+        when(this.jstateService.transition(any(), any())).thenAnswer((param) -> {
             instance.getStates().add(param.getArgument(1));
             return instance;
         });
 
-        when(this.templateRepository.getProcessTemplate(any())).thenReturn(processTemplate);
-
-        when(this.processorFactory.create(any(), any())).thenReturn((Processor) processInstance -> {
+        when(this.processorFactory.create(any(), any())).thenReturn(java.util.Optional.of((Processor) processInstance -> {
             System.out.println(processInstance);
             if (processInstance.getCurrentState().getId().equals(newState.getId())) {
                 return state1;
@@ -95,16 +82,15 @@ class ProcessExecutorTest {
             }
             Assertions.fail("Should never be reached. Processing ends with FINAL State");
             return null;
-        });
+        }));
 
         this.subject.execute("id");
 
+        verify(this.jstateService, times(3)).transition(any(), stateCaptor.capture());
 
-        verify(this.processRepository,times(3)).updateProcessInstance(any(),stateCaptor.capture());
-
-        assertEquals(state1,stateCaptor.getAllValues().get(0));
-        assertEquals(state2,stateCaptor.getAllValues().get(1));
-        assertEquals(finalState,stateCaptor.getAllValues().get(2));
+        assertEquals(state1, stateCaptor.getAllValues().get(0));
+        assertEquals(state2, stateCaptor.getAllValues().get(1));
+        assertEquals(finalState, stateCaptor.getAllValues().get(2));
 
     }
 
@@ -113,46 +99,4 @@ class ProcessExecutorTest {
         return new Transition().setFromStateId(from).setToStateIds(asList(to));
     }
 
-    private JstateEnvironmentProvider mockProvider() {
-
-        return new JstateEnvironmentProvider() {
-
-            @Override
-            public ProcessRepository getProcessRepository() {
-
-                return processRepository;
-            }
-
-            @Override
-            public ProcessTemplateRepository getProcessTemplateRepository() {
-
-                return templateRepository;
-            }
-
-            @Override
-            public ProcessInstanceFactory getProcessInstanceFactory() {
-
-                return null;
-            }
-
-            @Override
-            public ProcessorFactory getProcessorFactory() {
-
-                return processorFactory;
-            }
-
-            @Override
-            public ExecutorService getExecutorService() {
-
-                return null;
-            }
-
-            @Override
-            public JstateValidationService getJstateValidationService() {
-
-                return validationService;
-            }
-        };
-
-    }
 }

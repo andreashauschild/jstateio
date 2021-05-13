@@ -1,11 +1,12 @@
 package io.jstate.spi;
 
 import java.util.Map;
+import java.util.Optional;
 
 import io.jstate.model.configuration.ProcessTemplate;
 import io.jstate.model.configuration.ProcessorDefinition;
 
 public interface ProcessorFactory {
 
-    <T> T create(ProcessorDefinition definition, Class<T> type);
+    <T> Optional<T> create(ProcessorDefinition definition, Class<T> type);
 }
