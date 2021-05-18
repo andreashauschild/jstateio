@@ -4,12 +4,12 @@ import static io.jstate.spi.DefaultStates.FINAL;
 import static io.jstate.spi.DefaultStates.NEW;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 import io.jstate.spi.State;
 
 public class FinalState extends State {
-
 
     public FinalState(Map<String, String> intialProperties) {
 
@@ -20,6 +20,12 @@ public class FinalState extends State {
             getProperties().putAll(intialProperties);
         }
         setEnd(LocalDateTime.now());
+    }
+
+    public FinalState() {
+
+        this(new HashMap<String, String>());
+
     }
 
 }

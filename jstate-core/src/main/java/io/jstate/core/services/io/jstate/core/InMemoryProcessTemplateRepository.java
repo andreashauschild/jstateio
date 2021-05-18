@@ -9,6 +9,7 @@ import java.util.Map;
 import io.jstate.model.configuration.ProcessTemplate;
 import io.jstate.spi.ProcessDefinitionQuery;
 import io.jstate.spi.ProcessTemplateRepository;
+import io.jstate.spi.exception.ProcessTemplateNotExistsException;
 
 public class InMemoryProcessTemplateRepository implements ProcessTemplateRepository {
 
@@ -18,26 +19,28 @@ public class InMemoryProcessTemplateRepository implements ProcessTemplateReposit
     public ProcessTemplate updateProcessTemplate(final String id, final ProcessTemplate definition) {
 
         if (id == null) {
-            throw new RuntimeException("Error: Missing id");
+            throw new IllegalArgumentException("Error: Missing id");
         }
 
         if (definition == null) {
-            throw new RuntimeException("Error: Missing definition");
+            throw new IllegalArgumentException("Error: Missing definition");
         }
 
         if (this.instances.containsKey(id)) {
             this.instances.put(id, definition);
             return cloneObject(this.instances.get(id));
         }
-        // TODO define exception
-        throw new RuntimeException("ProcessDefinition with id " + id + " does not exists");
+        throw new ProcessTemplateNotExistsException(id);
 
     }
 
     @Override
     public ProcessTemplate getProcessTemplate(final String id) {
 
-        return cloneObject(this.instances.get(id));
+        if (this.instances.containsKey(id)) {
+            return cloneObject(this.instances.get(id));
+        }
+        throw new ProcessTemplateNotExistsException(id);
     }
 
     @Override
@@ -50,7 +53,7 @@ public class InMemoryProcessTemplateRepository implements ProcessTemplateReposit
     @Override
     public List<ProcessTemplate> findProcessTemplate(final ProcessDefinitionQuery query) {
 
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override

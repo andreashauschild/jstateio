@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Properties;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -19,7 +18,6 @@ import io.jstate.spi.ProcessInstanceFactory;
 import io.jstate.spi.ProcessTemplateRepository;
 import io.jstate.spi.ProcessInstance;
 import io.jstate.spi.ProcessInstanceQuery;
-import io.jstate.spi.ProcessRepository;
 import io.jstate.spi.State;
 import io.jstate.spi.exception.ProcessInstanceReservationNotExistsException;
 
@@ -55,10 +53,9 @@ public class InMemoryProcessRepository implements io.jstate.spi.ProcessRepositor
         if (first.isPresent()) {
             this.instances.get(first.get().getId()).getStates().add(state);
             this.instances.get(first.get().getId()).setLastUpdate(LocalDateTime.now());
-            return update(this.instances.get(first.get().getId()));
+            return updateAndClone(this.instances.get(first.get().getId()));
         }
-        // TODO define exception
-        throw new RuntimeException("ProcessInstance with reservationId " + reservationId + " does not exists");
+        throw new ProcessInstanceReservationNotExistsException(reservationId);
 
     }
 
@@ -94,26 +91,23 @@ public class InMemoryProcessRepository implements io.jstate.spi.ProcessRepositor
             processInstance.setReservationTime(LocalDateTime.now());
             processInstance.setLastUpdate(LocalDateTime.now());
 
-            return update(processInstance);
+            return updateAndClone(processInstance);
         }
 
     }
 
     @Override
-    public void cancelProcessInstanceReservation(String reservationId) {
+    public ProcessInstance cancelProcessInstanceReservation(String reservationId) {
 
         if (reservationId == null) {
             throw new IllegalArgumentException("Error: Missing reservation id");
         }
 
-        Optional<ProcessInstance> first = instances.values().stream().filter(p -> reservationId.equalsIgnoreCase(p.getReservationId())).findFirst();
+        ProcessInstance instance = getProcessInstanceByReservationId(reservationId);
+        instance.setReservationId(null);
+        instance.setReservationTime(null);
+        return updateAndClone(instance);
 
-        if (first.isPresent()) {
-            this.instances.get(reservationId).setReservationId(null);
-            this.instances.get(reservationId).setReservationTime(null);
-        }
-        // TODO define exception
-        throw new ProcessInstanceReservationNotExistsException(reservationId);
     }
 
     @Override
@@ -150,7 +144,7 @@ public class InMemoryProcessRepository implements io.jstate.spi.ProcessRepositor
         return list.stream().map(p -> cloneObject(p)).collect(Collectors.toList());
     }
 
-    private ProcessInstance update(ProcessInstance instance) {
+    private ProcessInstance updateAndClone(ProcessInstance instance) {
 
         ProcessInstance cloned = cloneObject(instance);
         this.instances.put(cloned.getId(), cloned);

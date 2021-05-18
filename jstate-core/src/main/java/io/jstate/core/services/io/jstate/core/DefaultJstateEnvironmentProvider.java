@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import io.jstate.spi.JstateEnvironmentProvider;
-import io.jstate.spi.JstateService;
+import io.jstate.spi.JProcessService;
 import io.jstate.spi.JstateValidationService;
 import io.jstate.spi.ProcessExecutor;
 import io.jstate.spi.ProcessInstanceFactory;
@@ -15,9 +15,9 @@ public class DefaultJstateEnvironmentProvider implements JstateEnvironmentProvid
     private ProcessInstanceFactory instanceFactory;
     private InMemoryProcessTemplateRepository templateRepository;
     private InMemoryProcessRepository inMemoryProcessRepository;
-    private JstateService jstateService;
+    private DefaultJProcessService processService;
     private ProcessorFactory processorFactory;
-    private ProcessExecutor processExecutor;
+    private DefaultProcessExecutor processExecutor;
     private JstateValidationService validationService;
     private ExecutorService executor;
 
@@ -35,9 +35,19 @@ public class DefaultJstateEnvironmentProvider implements JstateEnvironmentProvid
 
         validationService = new DefaultJstateValidationService(templateRepository);
 
-        processExecutor = new DefaultProcessExecutor(jstateService, processorFactory);
+        processExecutor = new DefaultProcessExecutor();
 
-        jstateService = new DefaultJstateService(processExecutor, templateRepository, inMemoryProcessRepository, validationService);
+        processService = new DefaultJProcessService();
+
+        processExecutor.setProcessorFactory(this.processorFactory);
+        processExecutor.setProcessService(this.processService);
+        processExecutor.setTmplRepo(templateRepository);
+
+        processService.setProcessExecutor(processExecutor);
+        processService.setProcessRepository(inMemoryProcessRepository);
+        processService.setTemplateRepository(templateRepository);
+        processService.setValidationService(validationService);
+
     }
 
     public static DefaultJstateEnvironmentProvider getInstance() {
@@ -82,9 +92,9 @@ public class DefaultJstateEnvironmentProvider implements JstateEnvironmentProvid
     }
 
     @Override
-    public JstateService getJstateService() {
+    public JProcessService getJProcessService() {
 
-        return jstateService;
+        return processService;
     }
 
     private static final class InstanceHolder {

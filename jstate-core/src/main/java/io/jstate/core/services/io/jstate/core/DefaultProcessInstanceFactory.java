@@ -14,7 +14,6 @@ public class DefaultProcessInstanceFactory implements ProcessInstanceFactory {
     public ProcessInstance create(ProcessTemplate template, Map<String, String> initialProperties) {
 
         if (template == null) {
-            // TODO define exception
             throw new IllegalArgumentException("Missing definition");
         }
 

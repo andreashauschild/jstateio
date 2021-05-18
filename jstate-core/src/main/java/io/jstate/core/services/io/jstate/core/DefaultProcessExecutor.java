@@ -12,9 +12,10 @@ import java.util.logging.Logger;
 
 import io.jstate.model.configuration.ProcessTemplate;
 import io.jstate.model.configuration.ProcessorDefinition;
-import io.jstate.spi.JstateService;
+import io.jstate.spi.JProcessService;
 import io.jstate.spi.ProcessExecutor;
 import io.jstate.spi.ProcessInstance;
+import io.jstate.spi.ProcessTemplateRepository;
 import io.jstate.spi.Processor;
 import io.jstate.spi.ProcessorFactory;
 import io.jstate.spi.State;
@@ -24,18 +25,13 @@ import io.jstate.spi.exception.TransitionNotAllowedException;
 public class DefaultProcessExecutor implements ProcessExecutor {
 
     static final Logger logger = Logger.getLogger(DefaultProcessExecutor.class.getName());
+    private ProcessTemplateRepository tmplRepo;
 
     private Set<String> stopExecutionState = new HashSet<>(asList(CLOSED, FINAL));
 
-    private JstateService jstateService;
+    private JProcessService processService;
 
     private ProcessorFactory processorFactory;
-
-    public DefaultProcessExecutor(JstateService jstateService, ProcessorFactory processorFactory) {
-
-        this.jstateService = jstateService;
-        this.processorFactory = processorFactory;
-    }
 
     @Override
     public void execute(String processInstanceId) {
@@ -44,22 +40,22 @@ public class DefaultProcessExecutor implements ProcessExecutor {
         State newState = null;
         ProcessInstance reserved = null;
         try {
-            reserved = this.jstateService.reserveProcessInstance(processInstanceId);
+            reserved = this.processService.reserve(processInstanceId);
             do {
                 currentState = reserved.getCurrentState();
                 newState = runProcessors(reserved);
                 if (newState != null) {
-                    reserved = this.jstateService.transition(reserved.getReservationId(), newState);
+                    reserved = this.processService.transition(reserved.getReservationId(), newState);
                 }
             } while (newStateAllowsFurtherProcessing(newState, currentState));
 
         } catch (AlreadyReservedException e) {
             logger.info("Execution of process with id '" + processInstanceId + "' is skipped. Process has already a reservation.");
         } catch (TransitionNotAllowedException e) {
-            this.jstateService.toErrorState(reserved.getReservationId(), e, newState.getProperties());
+            this.processService.toError(reserved.getReservationId(), e, newState.getProperties());
         } finally {
             if (reserved != null) {
-                this.jstateService.cancelReservation(reserved.getId());
+                this.processService.cancel(reserved.getReservationId());
             }
         }
     }
@@ -67,7 +63,7 @@ public class DefaultProcessExecutor implements ProcessExecutor {
     private State runProcessors(ProcessInstance reserved) {
 
         State result = null;
-        ProcessTemplate processTemplate = this.jstateService.getProcessTemplate(reserved.getId());
+        ProcessTemplate processTemplate = this.tmplRepo.getProcessTemplate(reserved.getProcessTemplateId());
 
         for (ProcessorDefinition processor : processTemplate.getProcessors()) {
             LocalDateTime start = LocalDateTime.now();
@@ -103,4 +99,72 @@ public class DefaultProcessExecutor implements ProcessExecutor {
         return newState.getId() != oldState.getId();
     }
 
+    /**
+     * Gets the value of the tmplRepo property.
+     *
+     * @return possible object is {@link ProcessTemplateRepository}
+     */
+    public ProcessTemplateRepository getTmplRepo() {
+
+        return tmplRepo;
+    }
+
+    /**
+     * Gets the value of the processService property.
+     *
+     * @return possible object is {@link JProcessService}
+     */
+    public JProcessService getProcessService() {
+
+        return processService;
+    }
+
+    /**
+     * Sets the value of the processService property
+     *
+     * @param processService
+     *            allowed object is {@link JProcessService }
+     * @return the {@link DefaultProcessExecutor}
+     */
+    public DefaultProcessExecutor setProcessService(JProcessService processService) {
+
+        this.processService = processService;
+        return this;
+    }
+
+    /**
+     * Gets the value of the processorFactory property.
+     *
+     * @return possible object is {@link ProcessorFactory}
+     */
+    public ProcessorFactory getProcessorFactory() {
+
+        return processorFactory;
+    }
+
+    /**
+     * Sets the value of the processorFactory property
+     *
+     * @param processorFactory
+     *            allowed object is {@link ProcessorFactory }
+     * @return the {@link DefaultProcessExecutor}
+     */
+    public DefaultProcessExecutor setProcessorFactory(ProcessorFactory processorFactory) {
+
+        this.processorFactory = processorFactory;
+        return this;
+    }
+
+    /**
+     * Sets the value of the tmplRepo property
+     *
+     * @param tmplRepo
+     *            allowed object is {@link ProcessTemplateRepository }
+     * @return the {@link DefaultProcessExecutor}
+     */
+    public DefaultProcessExecutor setTmplRepo(ProcessTemplateRepository tmplRepo) {
+
+        this.tmplRepo = tmplRepo;
+        return this;
+    }
 }

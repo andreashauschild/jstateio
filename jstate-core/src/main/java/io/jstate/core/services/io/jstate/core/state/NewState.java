@@ -10,7 +10,6 @@ import io.jstate.spi.State;
 
 public class NewState extends State {
 
-    private final String PROP_ERROR_MESSAGE = NEW + ".error";
 
     public NewState(Map<String,String> intialProperties) {
 
@@ -23,12 +22,11 @@ public class NewState extends State {
         setEnd(LocalDateTime.now());
     }
 
-    public NewState(String errorMessage) {
+    public NewState() {
 
         setBegin(LocalDateTime.now());
         setName(NEW);
         setId(NEW);
-        getProperties().put(PROP_ERROR_MESSAGE, errorMessage);
         setEnd(LocalDateTime.now());
     }
 

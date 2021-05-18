@@ -11,7 +11,8 @@
     {"fromStateId": "NEW", "toStateIds": ["copyImagesToWorkingDir"]},
     {"fromStateId": "copyImagesToWorkingDir", "toStateIds": ["createMpegFromImages"]},
     {"fromStateId": "createMpegFromImages", "toStateIds": ["uploadMpegToServer"]},
-    {"fromStateId": "uploadMpegToServer", "toStateIds": ["FINAL"]}
+    {"fromStateId": "uploadMpegToServer", "toStateIds": ["cleanupWorkingDir"]},
+    {"fromStateId": "cleanupWorkingDir", "toStateIds": ["FINAL"]}
   ],
   "processors": [
     {

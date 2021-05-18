@@ -25,7 +25,7 @@ public interface ProcessRepository {
      */
     ProcessInstance reserveProcessInstance(String instanceId);
 
-    void cancelProcessInstanceReservation(String reservationId);
+    ProcessInstance cancelProcessInstanceReservation(String reservationId);
 
     ProcessInstance createProcessInstance(String processDefinitionId, Map<String, String> initialProperties);
 

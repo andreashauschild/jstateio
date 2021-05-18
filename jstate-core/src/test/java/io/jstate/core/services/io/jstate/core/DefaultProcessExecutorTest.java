@@ -25,6 +25,7 @@ import io.jstate.model.configuration.ProcessTemplate;
 import io.jstate.model.configuration.ProcessorDefinition;
 import io.jstate.model.configuration.Transition;
 import io.jstate.spi.ProcessInstance;
+import io.jstate.spi.ProcessTemplateRepository;
 import io.jstate.spi.Processor;
 import io.jstate.spi.ProcessorFactory;
 import io.jstate.spi.State;
@@ -36,17 +37,16 @@ class DefaultProcessExecutorTest {
     ProcessorFactory processorFactory;
 
     @Mock
-    DefaultJstateService jstateService;
+    ProcessTemplateRepository templateRepository;
+
+    @Mock
+    DefaultJProcessService jstateService;
 
     @InjectMocks
     DefaultProcessExecutor subject;
 
     @Captor
     ArgumentCaptor<State> stateCaptor;
-
-
-
-
 
     @Test
     @DisplayName("Execute the process from NEW->STATE1->STATE2->FINAL in a single execution.")
@@ -61,8 +61,8 @@ class DefaultProcessExecutorTest {
         ProcessInstance instance = new ProcessInstance();
         instance.getStates().add(newState);
 
-        when(this.jstateService.getProcessTemplate(any())).thenReturn(processTemplate);
-        when(this.jstateService.reserveProcessInstance(any())).thenReturn(instance);
+        when(this.templateRepository.getProcessTemplate(any())).thenReturn(processTemplate);
+        when(this.jstateService.reserve(any())).thenReturn(instance);
 
         when(this.jstateService.transition(any(), any())).thenAnswer((param) -> {
             instance.getStates().add(param.getArgument(1));
