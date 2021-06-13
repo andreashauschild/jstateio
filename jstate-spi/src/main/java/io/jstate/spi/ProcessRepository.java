@@ -12,7 +12,7 @@ public interface ProcessRepository {
 
     ProcessInstance getProcessInstanceById(String instanceId);
 
-    ProcessInstance getProcessInstanceByReservationId(String instanceId);
+    ProcessInstance getProcessInstanceByReservationId(String reservationId);
 
     /**
      *

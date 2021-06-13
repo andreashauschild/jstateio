@@ -79,6 +79,8 @@
     <!-- Extensions -->
     <module>extensions</module>
     <module>jstate-test</module>
+    <module>jprocess-examples</module>
+
 
 
   </modules>
