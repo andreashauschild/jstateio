@@ -1,4 +1,4 @@
-package de.litexo.resteasyjackson;
+package io.jprocess.rest;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

@@ -1,31 +1,29 @@
 package io.jprocess.hibernate.entities;
 
-import java.time.LocalDateTime;
+
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
-import de.litexo.smartgarden.entities.DatabaseMetaDataListener;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import java.time.LocalDateTime;
 
 // @formatter:off
 @MappedSuperclass
-@EntityListeners({ DatabaseMetaDataListener.class })
+@EntityListeners({DatabaseMetaDataListener.class})
 // @formatter:on
-public class BaseEntity extends PanacheEntityBase {
+public abstract class BaseEntity extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator",
-            parameters = { @Parameter(name = "uuid_gen_strategy_class",
-                    value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
+            parameters = {@Parameter(name = "uuid_gen_strategy_class",
+                    value = "org.hibernate.id.uuid.CustomVersionOneStrategy")})
     @Column(name = "ID",
             updatable = false,
             nullable = false)
@@ -60,8 +58,7 @@ public class BaseEntity extends PanacheEntityBase {
     /**
      * Sets the value of the id property
      *
-     * @param id
-     *            allowed object is {@link String }
+     * @param id allowed object is {@link String }
      * @return the {@link BaseEntity}
      */
     public BaseEntity setId(String id) {
@@ -83,8 +80,7 @@ public class BaseEntity extends PanacheEntityBase {
     /**
      * Sets the value of the created property
      *
-     * @param created
-     *            allowed object is {@link LocalDateTime }
+     * @param created allowed object is {@link LocalDateTime }
      * @return the {@link BaseEntity}
      */
     public BaseEntity setCreated(LocalDateTime created) {
@@ -106,8 +102,7 @@ public class BaseEntity extends PanacheEntityBase {
     /**
      * Sets the value of the lastModified property
      *
-     * @param lastModified
-     *            allowed object is {@link LocalDateTime }
+     * @param lastModified allowed object is {@link LocalDateTime }
      * @return the {@link BaseEntity}
      */
     public BaseEntity setLastModified(LocalDateTime lastModified) {
@@ -129,8 +124,7 @@ public class BaseEntity extends PanacheEntityBase {
     /**
      * Sets the value of the createdBy property
      *
-     * @param createdBy
-     *            allowed object is {@link String }
+     * @param createdBy allowed object is {@link String }
      * @return the {@link BaseEntity}
      */
     public BaseEntity setCreatedBy(String createdBy) {
@@ -152,8 +146,7 @@ public class BaseEntity extends PanacheEntityBase {
     /**
      * Sets the value of the lastModifiedBy property
      *
-     * @param lastModifiedBy
-     *            allowed object is {@link String }
+     * @param lastModifiedBy allowed object is {@link String }
      * @return the {@link BaseEntity}
      */
     public BaseEntity setLastModifiedBy(String lastModifiedBy) {

@@ -1,14 +1,12 @@
 package io.jprocess.hibernate.entities;
 
-import java.time.LocalDateTime;
+import io.quarkus.security.identity.SecurityIdentity;
 
 import javax.enterprise.context.ContextNotActiveException;
 import javax.enterprise.inject.spi.CDI;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-
-import de.litexo.smartgarden.entities.BaseEntity;
-import io.quarkus.security.identity.SecurityIdentity;
+import java.time.LocalDateTime;
 
 public class DatabaseMetaDataListener {
     @PrePersist

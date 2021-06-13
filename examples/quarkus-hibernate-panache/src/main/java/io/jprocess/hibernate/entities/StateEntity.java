@@ -1,140 +1,67 @@
 package io.jprocess.hibernate.entities;
 
-import java.io.Serializable;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
-public class StateEntity extends BaseEntity{
+@Entity
+@Table(name = "STATES")
+public class StateEntity extends BaseEntity {
 
+    @Column(name = "STATE_NAME")
     private String name;
 
+    @Column(name = "STATE_BEGIN")
     private LocalDateTime begin;
+
+    @Column(name = "STATE_END")
     private LocalDateTime end;
 
-    Map<String, String> properties;
+    @OneToMany(
+            mappedBy = "state",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<StateEntityProperties> properties = new ArrayList<>();
 
-    /**
-     * Gets the value of the properties property.
-     *
-     * @return possible object is {@link Map< String, String>}
-     */
-    public Map<String, String> getProperties() {
-
-        if (this.properties == null) {
-            this.properties = new HashMap<>();
-        }
-        return properties;
-    }
-
-    /**
-     * Sets the value of the properties property
-     *
-     * @param properties
-     *            allowed object is {@link Map< String, String> }
-     * @return the {@link State}
-     */
-    public State setProperties(Map<String, String> properties) {
-
-        this.properties = properties;
-        return this;
-    }
-
-    /**
-     * Gets the value of the id property.
-     *
-     * @return possible object is {@link String}
-     */
-    public String getId() {
-
-        return id;
-    }
-
-    /**
-     * Sets the value of the id property
-     *
-     * @param id
-     *            allowed object is {@link String }
-     * @return the {@link State}
-     */
-    public State setId(String id) {
-
-        this.id = id;
-        return this;
-    }
-
-    /**
-     * Gets the value of the name property.
-     *
-     * @return possible object is {@link String}
-     */
     public String getName() {
-
         return name;
     }
 
-    /**
-     * Sets the value of the name property
-     *
-     * @param name
-     *            allowed object is {@link String }
-     * @return the {@link State}
-     */
-    public State setName(String name) {
-
+    public StateEntity setName(String name) {
         this.name = name;
         return this;
     }
 
-    /**
-     * Gets the value of the begin property.
-     *
-     * @return possible object is {@link LocalDateTime}
-     */
     public LocalDateTime getBegin() {
-
         return begin;
     }
 
-    /**
-     * Sets the value of the begin property
-     *
-     * @param begin
-     *            allowed object is {@link LocalDateTime }
-     * @return the {@link State}
-     */
-    public State setBegin(LocalDateTime begin) {
-
+    public StateEntity setBegin(LocalDateTime begin) {
         this.begin = begin;
         return this;
     }
 
-    /**
-     * Gets the value of the end property.
-     *
-     * @return possible object is {@link LocalDateTime}
-     */
     public LocalDateTime getEnd() {
-
         return end;
     }
 
-    /**
-     * Sets the value of the end property
-     *
-     * @param end
-     *            allowed object is {@link LocalDateTime }
-     * @return the {@link State}
-     */
-    public State setEnd(LocalDateTime end) {
-
+    public StateEntity setEnd(LocalDateTime end) {
         this.end = end;
         return this;
     }
 
-    @Override
-    public String toString() {
+    public List<StateEntityProperties> getProperties() {
+        return properties;
+    }
 
-        return "State{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", begin=" + begin + ", end=" + end + ", properties=" + properties + '}';
+    public StateEntity setProperties(List<StateEntityProperties> properties) {
+        this.properties = properties;
+        return this;
     }
 }

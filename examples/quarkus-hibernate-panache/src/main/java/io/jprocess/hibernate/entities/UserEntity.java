@@ -1,31 +1,28 @@
 package io.jprocess.hibernate.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.quarkus.security.jpa.Password;
+import io.quarkus.security.jpa.Roles;
+import io.quarkus.security.jpa.UserDefinition;
+import io.quarkus.security.jpa.Username;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
-import de.litexo.smartgarden.entities.BaseEntity;
-import de.litexo.smartgarden.entities.RoleEntity;
-import io.quarkus.security.jpa.Password;
-import io.quarkus.security.jpa.Roles;
-import io.quarkus.security.jpa.UserDefinition;
-import io.quarkus.security.jpa.Username;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "APP_USERS")
 @UserDefinition
 public class UserEntity extends BaseEntity {
 
-    @Column(name="USER_NAME", unique = true)
+    @Column(name = "USER_NAME", unique = true)
     @Username
     private String name;
 
-    @Column(name="PASSWORD")
+    @Column(name = "PASSWORD")
     @Password
     private String password;
 
@@ -46,8 +43,7 @@ public class UserEntity extends BaseEntity {
     /**
      * Sets the value of the name property
      *
-     * @param name
-     *            allowed object is {@link String }
+     * @param name allowed object is {@link String }
      * @return the {@link UserEntity}
      */
     public UserEntity setName(String name) {
@@ -69,8 +65,7 @@ public class UserEntity extends BaseEntity {
     /**
      * Sets the value of the pass property
      *
-     * @param password
-     *            allowed object is {@link String }
+     * @param password allowed object is {@link String }
      * @return the {@link UserEntity}
      */
     public UserEntity setPassword(String password) {
@@ -92,8 +87,7 @@ public class UserEntity extends BaseEntity {
     /**
      * Sets the value of the roles property
      *
-     * @param roles
-     *            allowed object is {@link List< RoleEntity> }
+     * @param roles allowed object is {@link List< RoleEntity> }
      * @return the {@link UserEntity}
      */
     public UserEntity setRoles(List<RoleEntity> roles) {
