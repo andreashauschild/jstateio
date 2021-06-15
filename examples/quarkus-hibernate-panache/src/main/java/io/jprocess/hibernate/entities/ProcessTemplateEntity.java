@@ -21,8 +21,7 @@ public class ProcessTemplateEntity extends BaseEntity {
 
     @OneToMany(
             mappedBy = "processTemplate",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+            cascade = CascadeType.ALL
     )
     List<ProcessInstanceEntity> processInstances = new ArrayList<>();
 

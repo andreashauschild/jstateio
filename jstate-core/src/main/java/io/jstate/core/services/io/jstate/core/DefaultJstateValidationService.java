@@ -17,7 +17,7 @@ public class DefaultJstateValidationService implements JstateValidationService {
 
     private ProcessTemplateRepository templateRepository;
 
-    DefaultJstateValidationService(ProcessTemplateRepository templateRepository) {
+    public DefaultJstateValidationService(ProcessTemplateRepository templateRepository) {
 
         this.templateRepository = templateRepository;
     }

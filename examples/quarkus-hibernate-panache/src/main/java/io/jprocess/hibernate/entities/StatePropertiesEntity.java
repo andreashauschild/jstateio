@@ -7,16 +7,16 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "STATE_PROPERTIES")
-public class StateEntityProperties extends BasePropertyEntity {
+public class StatePropertiesEntity extends BasePropertyEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private StateEntity state;
 
-    public StateEntityProperties(String key, String value) {
+    public StatePropertiesEntity(String key, String value) {
         super(key, value);
     }
 
-    public StateEntityProperties() {
+    public StatePropertiesEntity() {
 
     }
 
@@ -24,7 +24,7 @@ public class StateEntityProperties extends BasePropertyEntity {
         return state;
     }
 
-    public StateEntityProperties setState(StateEntity state) {
+    public StatePropertiesEntity setState(StateEntity state) {
         this.state = state;
         return this;
     }

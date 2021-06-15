@@ -2,6 +2,7 @@ package io.jprocess.hibernate.entities;
 
 import org.hibernate.sql.Template;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,8 +28,12 @@ public class ProcessInstanceEntity extends BaseEntity {
     private LocalDateTime reservationTime;
 
     @OrderColumn
-    @OneToMany
     @JoinColumn(name = "PROCESS_INSTANCE_ID")
+    @OneToMany(
+            mappedBy = "process",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<StateEntity> states;
 
     public ProcessTemplateEntity getProcessTemplate() {
@@ -66,4 +71,6 @@ public class ProcessInstanceEntity extends BaseEntity {
         this.states = states;
         return this;
     }
+
+
 }

@@ -1,5 +1,8 @@
 package io.jprocess.rest;
 
+import io.jstate.spi.ProcessRepository;
+
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Collections;
@@ -10,6 +13,9 @@ import java.util.Set;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class JacksonResource {
+
+    @Inject
+    ProcessRepository processRepository;
 
     private final Set<Quark> quarks = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
 

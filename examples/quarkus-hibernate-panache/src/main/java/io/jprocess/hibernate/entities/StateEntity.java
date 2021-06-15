@@ -3,6 +3,8 @@ package io.jprocess.hibernate.entities;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
@@ -12,6 +14,9 @@ import java.util.List;
 @Entity
 @Table(name = "STATES")
 public class StateEntity extends BaseEntity {
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ProcessInstanceEntity processInstanceEntity;
 
     @Column(name = "STATE_NAME")
     private String name;
@@ -27,7 +32,7 @@ public class StateEntity extends BaseEntity {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<StateEntityProperties> properties = new ArrayList<>();
+    private List<StatePropertiesEntity> properties = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -56,12 +61,21 @@ public class StateEntity extends BaseEntity {
         return this;
     }
 
-    public List<StateEntityProperties> getProperties() {
+    public List<StatePropertiesEntity> getProperties() {
         return properties;
     }
 
-    public StateEntity setProperties(List<StateEntityProperties> properties) {
+    public StateEntity setProperties(List<StatePropertiesEntity> properties) {
         this.properties = properties;
+        return this;
+    }
+
+    public ProcessInstanceEntity getProcessInstanceEntity() {
+        return processInstanceEntity;
+    }
+
+    public StateEntity setProcessInstanceEntity(ProcessInstanceEntity processInstanceEntity) {
+        this.processInstanceEntity = processInstanceEntity;
         return this;
     }
 }
