@@ -11,15 +11,15 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.Map;
 
-@Mapper(unmappedSourcePolicy = ReportingPolicy.WARN, unmappedTargetPolicy = ReportingPolicy.WARN)
+@Mapper(config = MapperConfiguration.class, unmappedSourcePolicy = ReportingPolicy.WARN, unmappedTargetPolicy = ReportingPolicy.WARN)
 public abstract class StateMapper {
 
     @Mapping(target = "properties", ignore = true)
     public abstract StateEntity toEntity(State model);
 
     @AfterMapping
-    protected  void toEntityAfterMapping(State model, @MappingTarget StateEntity entity){
-        for(Map.Entry<String,String > entry :  model.getProperties().entrySet()){
+    protected void toEntityAfterMapping(State model, @MappingTarget StateEntity entity) {
+        for (Map.Entry<String, String> entry : model.getProperties().entrySet()) {
             StatePropertiesEntity prop = new StatePropertiesEntity(entry.getKey(), entry.getValue());
             prop.setState(entity);
             entity.getProperties().add(prop);

@@ -1,5 +1,20 @@
 package io.jstate.test;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jstate.core.services.io.jstate.core.InMemoryJstateEnvironmentProvider;
+import io.jstate.core.services.io.jstate.core.state.NewState;
+import io.jstate.model.configuration.ProcessTemplate;
+import io.jstate.spi.ProcessInstance;
+import io.jstate.spi.State;
+import io.jstate.spi.exception.AlreadyReservedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static io.jstate.spi.DefaultStates.ERROR;
 import static io.jstate.spi.DefaultStates.FINAL;
 import static io.jstate.spi.DefaultStates.NEW;
@@ -12,30 +27,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import io.jstate.core.services.io.jstate.core.state.NewState;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import io.jstate.core.services.DefaultJStateProcessManager;
-import io.jstate.core.services.io.jstate.core.DefaultJstateEnvironmentProvider;
-import io.jstate.model.configuration.ProcessTemplate;
-import io.jstate.spi.JstateEnvironmentProvider;
-import io.jstate.spi.ProcessInstance;
-import io.jstate.spi.State;
-import io.jstate.spi.exception.AlreadyReservedException;
-
 public class BasicFunctionsTest {
 
-    private DefaultJStateProcessManager manager = new DefaultJStateProcessManager();
 
-    JstateEnvironmentProvider env = DefaultJstateEnvironmentProvider.getInstance();
+    InMemoryJstateEnvironmentProvider env = InMemoryJstateEnvironmentProvider.getInstance();
     private ProcessTemplate testTemplate;
 
     @BeforeEach
@@ -125,7 +120,9 @@ public class BasicFunctionsTest {
         Map<String, String> props = new HashMap<>();
         props.put("prop1", "value1");
         ProcessInstance instance = env.getJProcessService().create(testTemplate.getId(), props);
-        ProcessInstance execute = env.getJProcessService().execute(instance.getId());
+
+        Thread.sleep(100);
+        ProcessInstance execute = env.getJProcessService().get(instance.getId());
         assertEquals(6, execute.getStates().size());
         assertEquals(NEW, execute.getStates().get(0).getId());
         assertEquals(COPY_IMAGES_TO_WORKING_DIR, execute.getStates().get(1).getId());
@@ -143,7 +140,7 @@ public class BasicFunctionsTest {
         props.put("prop1", "error");
         ProcessInstance instance = env.getJProcessService().create(testTemplate.getId(), new HashMap<>());
         ProcessInstance reserve = env.getJProcessService().reserve(instance.getId());
-        ProcessInstance toError = env.getJProcessService().toError(reserve.getReservationId(),"This is a error", props);
+        ProcessInstance toError = env.getJProcessService().toError(reserve.getReservationId(), "This is a error", props);
         assertEquals(2, toError.getStates().size());
         assertEquals(ERROR, toError.getStates().get(1).getId());
 

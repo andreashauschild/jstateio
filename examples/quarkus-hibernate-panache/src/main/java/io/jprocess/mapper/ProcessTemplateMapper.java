@@ -7,7 +7,7 @@ import io.jstate.model.configuration.ProcessTemplate;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(unmappedSourcePolicy = ReportingPolicy.WARN, unmappedTargetPolicy = ReportingPolicy.WARN)
+@Mapper(config = MapperConfiguration.class,unmappedSourcePolicy = ReportingPolicy.WARN, unmappedTargetPolicy = ReportingPolicy.WARN)
 public abstract class ProcessTemplateMapper {
 
 

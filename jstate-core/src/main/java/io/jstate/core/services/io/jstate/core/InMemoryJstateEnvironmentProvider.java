@@ -1,16 +1,14 @@
 package io.jstate.core.services.io.jstate.core;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import io.jstate.spi.JstateEnvironmentProvider;
 import io.jstate.spi.JProcessService;
 import io.jstate.spi.JstateValidationService;
-import io.jstate.spi.ProcessExecutor;
 import io.jstate.spi.ProcessInstanceFactory;
 import io.jstate.spi.ProcessorFactory;
 
-public class DefaultJstateEnvironmentProvider implements JstateEnvironmentProvider {
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class InMemoryJstateEnvironmentProvider {
 
     private ProcessInstanceFactory instanceFactory;
     private InMemoryProcessTemplateRepository templateRepository;
@@ -21,7 +19,7 @@ public class DefaultJstateEnvironmentProvider implements JstateEnvironmentProvid
     private JstateValidationService validationService;
     private ExecutorService executor;
 
-    private DefaultJstateEnvironmentProvider() {
+    private InMemoryJstateEnvironmentProvider() {
 
         executor = Executors.newFixedThreadPool(10);
 
@@ -50,48 +48,41 @@ public class DefaultJstateEnvironmentProvider implements JstateEnvironmentProvid
 
     }
 
-    public static DefaultJstateEnvironmentProvider getInstance() {
+    public static InMemoryJstateEnvironmentProvider getInstance() {
 
         return InstanceHolder.INSTANCE;
     }
 
-    @Override
     public io.jstate.spi.ProcessRepository getProcessRepository() {
 
         return this.inMemoryProcessRepository;
     }
 
-    @Override
     public io.jstate.spi.ProcessTemplateRepository getProcessTemplateRepository() {
 
         return this.templateRepository;
     }
 
-    @Override
     public ProcessInstanceFactory getProcessInstanceFactory() {
 
         return this.instanceFactory;
     }
 
-    @Override
     public io.jstate.spi.ProcessorFactory getProcessorFactory() {
 
         return null;
     }
 
-    @Override
     public ExecutorService getExecutorService() {
 
         return executor;
     }
 
-    @Override
     public JstateValidationService getJstateValidationService() {
 
         return new DefaultJstateValidationService(templateRepository);
     }
 
-    @Override
     public JProcessService getJProcessService() {
 
         return processService;
@@ -99,7 +90,7 @@ public class DefaultJstateEnvironmentProvider implements JstateEnvironmentProvid
 
     private static final class InstanceHolder {
 
-        static final DefaultJstateEnvironmentProvider INSTANCE = new DefaultJstateEnvironmentProvider();
+        static final InMemoryJstateEnvironmentProvider INSTANCE = new InMemoryJstateEnvironmentProvider();
     }
 
 }

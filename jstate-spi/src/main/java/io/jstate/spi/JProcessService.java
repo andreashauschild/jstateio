@@ -14,7 +14,9 @@ public interface JProcessService {
 
     ProcessInstance reserve(String instanceId);
 
-    ProcessInstance execute(String processInstanceId);
+    ProcessInstance get(String instanceId);
+
+    void execute(String processInstanceId);
 
     ProcessInstance transition(String reservationId, State toState);
 

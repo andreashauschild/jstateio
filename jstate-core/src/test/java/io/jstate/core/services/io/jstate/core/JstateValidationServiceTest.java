@@ -4,12 +4,8 @@ import io.jstate.spi.exception.TransitionNotAllowedException;
 import io.jstate.model.configuration.ProcessTemplate;
 import io.jstate.model.configuration.StateDefinition;
 import io.jstate.model.configuration.Transition;
-import io.jstate.spi.JstateEnvironmentProvider;
 import io.jstate.spi.ProcessInstance;
-import io.jstate.spi.ProcessInstanceFactory;
-import io.jstate.spi.ProcessRepository;
 import io.jstate.spi.ProcessTemplateRepository;
-import io.jstate.spi.ProcessorFactory;
 import io.jstate.spi.State;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,8 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.concurrent.ExecutorService;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;

@@ -2,6 +2,7 @@ package io.jstate.core.services.io.jstate.core;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.concurrent.Executor;
 
 import io.jstate.core.services.io.jstate.core.state.CloseState;
 import io.jstate.core.services.io.jstate.core.state.ErrorState;
@@ -19,6 +20,7 @@ import io.jstate.spi.exception.ProcessInstanceNotExistsException;
 
 public class DefaultJProcessService implements JProcessService {
 
+    private Executor executor;
     private ProcessExecutor processExecutor;
     private ProcessTemplateRepository templateRepository;
     private ProcessRepository processRepository;
@@ -37,13 +39,10 @@ public class DefaultJProcessService implements JProcessService {
     }
 
     /**
-     *
      * @param instanceId
      * @return
-     * @exception AlreadyReservedException
-     *                if the given instance has a reservation
-     * @exception ProcessInstanceNotExistsException
-     *                if the given instance does not exists
+     * @throws AlreadyReservedException          if the given instance has a reservation
+     * @throws ProcessInstanceNotExistsException if the given instance does not exists
      */
     @Override
     public ProcessInstance reserve(String instanceId) {
@@ -52,10 +51,13 @@ public class DefaultJProcessService implements JProcessService {
     }
 
     @Override
-    public ProcessInstance execute(String processInstanceId) {
+    public ProcessInstance get(String instanceId) {
+        return this.processRepository.getProcessInstanceById(instanceId);
+    }
 
+    @Override
+    public void execute(String processInstanceId) {
         this.processExecutor.execute(processInstanceId);
-        return this.processRepository.getProcessInstanceById(processInstanceId);
     }
 
     @Override
@@ -125,8 +127,7 @@ public class DefaultJProcessService implements JProcessService {
     /**
      * Sets the value of the processExecutor property
      *
-     * @param processExecutor
-     *            allowed object is {@link ProcessExecutor }
+     * @param processExecutor allowed object is {@link ProcessExecutor }
      * @return the {@link DefaultJProcessService}
      */
     public DefaultJProcessService setProcessExecutor(ProcessExecutor processExecutor) {
@@ -148,8 +149,7 @@ public class DefaultJProcessService implements JProcessService {
     /**
      * Sets the value of the templateRepository property
      *
-     * @param templateRepository
-     *            allowed object is {@link ProcessTemplateRepository }
+     * @param templateRepository allowed object is {@link ProcessTemplateRepository }
      * @return the {@link DefaultJProcessService}
      */
     public DefaultJProcessService setTemplateRepository(ProcessTemplateRepository templateRepository) {
@@ -171,8 +171,7 @@ public class DefaultJProcessService implements JProcessService {
     /**
      * Sets the value of the processRepository property
      *
-     * @param processRepository
-     *            allowed object is {@link ProcessRepository }
+     * @param processRepository allowed object is {@link ProcessRepository }
      * @return the {@link DefaultJProcessService}
      */
     public DefaultJProcessService setProcessRepository(ProcessRepository processRepository) {
@@ -194,13 +193,17 @@ public class DefaultJProcessService implements JProcessService {
     /**
      * Sets the value of the validationService property
      *
-     * @param validationService
-     *            allowed object is {@link JstateValidationService }
+     * @param validationService allowed object is {@link JstateValidationService }
      * @return the {@link DefaultJProcessService}
      */
     public DefaultJProcessService setValidationService(JstateValidationService validationService) {
 
         this.validationService = validationService;
+        return this;
+    }
+
+    public DefaultJProcessService setExecutor(Executor executor) {
+        this.executor = executor;
         return this;
     }
 }

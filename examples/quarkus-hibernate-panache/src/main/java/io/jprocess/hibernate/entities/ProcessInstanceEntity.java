@@ -28,9 +28,9 @@ public class ProcessInstanceEntity extends BaseEntity {
     private LocalDateTime reservationTime;
 
     @OrderColumn
-    @JoinColumn(name = "PROCESS_INSTANCE_ID")
+    //@JoinColumn(name = "PROCESS_INSTANCE_ID")
     @OneToMany(
-            mappedBy = "process",
+            mappedBy = "processInstance",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )

@@ -16,7 +16,7 @@ import java.util.List;
 public class StateEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private ProcessInstanceEntity processInstanceEntity;
+    private ProcessInstanceEntity processInstance;
 
     @Column(name = "STATE_NAME")
     private String name;
@@ -70,12 +70,12 @@ public class StateEntity extends BaseEntity {
         return this;
     }
 
-    public ProcessInstanceEntity getProcessInstanceEntity() {
-        return processInstanceEntity;
+    public ProcessInstanceEntity getProcessInstance() {
+        return processInstance;
     }
 
-    public StateEntity setProcessInstanceEntity(ProcessInstanceEntity processInstanceEntity) {
-        this.processInstanceEntity = processInstanceEntity;
+    public StateEntity setProcessInstance(ProcessInstanceEntity processInstanceEntity) {
+        this.processInstance = processInstanceEntity;
         return this;
     }
 }

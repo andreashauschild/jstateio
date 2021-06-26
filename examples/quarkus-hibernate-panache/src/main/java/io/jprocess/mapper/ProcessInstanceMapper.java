@@ -12,13 +12,13 @@ import org.mapstruct.ReportingPolicy;
 
 import javax.inject.Inject;
 
-@Mapper(unmappedSourcePolicy = ReportingPolicy.WARN, unmappedTargetPolicy = ReportingPolicy.WARN)
+@Mapper(config = MapperConfiguration.class,unmappedSourcePolicy = ReportingPolicy.WARN, unmappedTargetPolicy = ReportingPolicy.WARN)
 public abstract class ProcessInstanceMapper {
 
     @Inject
     StateMapper stateMapper;
 
-    @Mapping(target = "processTemplateId", ignore = true)
+    @Mapping(target = "states", ignore = true)
     public abstract ProcessInstanceEntity toEntity(ProcessInstance model);
 
     @AfterMapping
@@ -29,7 +29,7 @@ public abstract class ProcessInstanceMapper {
         }
     }
 
-    @Mapping(target = "processTemplateId", ignore = true)
+    @Mapping(target = "states", ignore = true)
     public abstract ProcessInstance toModel(ProcessInstanceEntity entity);
 
     @AfterMapping

@@ -8,6 +8,7 @@ import io.jstate.spi.ProcessTemplateRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @ApplicationScoped
@@ -17,6 +18,7 @@ public class DatabaseProcessTemplateRepository implements ProcessTemplateReposit
     ProcessTemplateMapper templateMapper;
 
     @Override
+    @Transactional
     public ProcessTemplate updateProcessTemplate(String id, ProcessTemplate definition) {
         return null;
     }
@@ -27,6 +29,7 @@ public class DatabaseProcessTemplateRepository implements ProcessTemplateReposit
     }
 
     @Override
+    @Transactional
     public ProcessTemplate createProcessTemplate(ProcessTemplate processTemplate) {
         ProcessTemplateEntity processTemplateEntity = this.templateMapper.toEntity(processTemplate);
         processTemplateEntity.persist();
@@ -39,6 +42,7 @@ public class DatabaseProcessTemplateRepository implements ProcessTemplateReposit
     }
 
     @Override
+    @Transactional
     public boolean deleteProcessTemplate(String id) {
         return false;
     }

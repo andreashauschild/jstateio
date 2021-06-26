@@ -6,7 +6,6 @@ import io.jstate.spi.ProcessTemplateRepository;
 import io.jstate.spi.exception.TransitionNotAllowedException;
 import io.jstate.model.configuration.ProcessTemplate;
 import io.jstate.model.configuration.Transition;
-import io.jstate.spi.JstateEnvironmentProvider;
 import io.jstate.spi.JstateValidationService;
 import io.jstate.spi.ProcessInstance;
 import io.jstate.spi.State;
