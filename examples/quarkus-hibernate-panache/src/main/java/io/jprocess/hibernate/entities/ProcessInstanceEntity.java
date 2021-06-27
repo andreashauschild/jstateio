@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,13 +29,12 @@ public class ProcessInstanceEntity extends BaseEntity {
     private LocalDateTime reservationTime;
 
     @OrderColumn
-    //@JoinColumn(name = "PROCESS_INSTANCE_ID")
     @OneToMany(
             mappedBy = "processInstance",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<StateEntity> states;
+    private List<StateEntity> states = new ArrayList<>();
 
     public ProcessTemplateEntity getProcessTemplate() {
         return processTemplate;
@@ -71,6 +71,8 @@ public class ProcessInstanceEntity extends BaseEntity {
         this.states = states;
         return this;
     }
+
+
 
 
 }

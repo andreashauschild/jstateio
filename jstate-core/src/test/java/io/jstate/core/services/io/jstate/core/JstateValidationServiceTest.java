@@ -40,8 +40,8 @@ class JstateValidationServiceTest {
         );
         processTemplate.setStateDefinitions(
                 asList(
-                        new StateDefinition().setId("NEW"),
-                        new StateDefinition().setId("FINAL")
+                        new StateDefinition().setName("NEW"),
+                        new StateDefinition().setName("FINAL")
                 )
         );
         State state1 = new State().setId("NEW");
@@ -74,8 +74,8 @@ class JstateValidationServiceTest {
         );
         processTemplate.setStateDefinitions(
                 asList(
-                        new StateDefinition().setId("NEW"),
-                        new StateDefinition().setId("FINAL")
+                        new StateDefinition().setName("NEW"),
+                        new StateDefinition().setName("FINAL")
                 )
         );
         State state1 = new State().setId("UNKNOWN");
@@ -110,8 +110,8 @@ class JstateValidationServiceTest {
         );
         processTemplate.setStateDefinitions(
                 asList(
-                        new StateDefinition().setId("NEW"),
-                        new StateDefinition().setId("FINAL")
+                        new StateDefinition().setName("NEW"),
+                        new StateDefinition().setName("FINAL")
                 )
         );
         State state1 = new State().setId("NEW");
@@ -136,7 +136,7 @@ class JstateValidationServiceTest {
 
     private Transition transition(String from, String to) {
 
-        return new Transition().setFromStateId(from).setToStateIds(asList(to));
+        return new Transition().setFromState(from).setToState(asList(to));
     }
 
 }

@@ -27,4 +27,15 @@ public abstract class StateMapper {
     }
 
 
+    @Mapping(target = "properties", ignore = true)
+    public abstract State toModel(StateEntity entity);
+
+    @AfterMapping
+    protected void toModelAfterMapping(StateEntity entity, @MappingTarget State model) {
+        for (StatePropertiesEntity props : entity.getProperties()) {
+            model.getProperties().put(props.getKey(), props.getValue());
+        }
+    }
+
+
 }

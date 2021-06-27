@@ -56,8 +56,16 @@ public class DefaultJProcessService implements JProcessService {
     }
 
     @Override
-    public void execute(String processInstanceId) {
+    public void executeAsync(String processInstanceId) {
+        this.executor.execute(() -> {
+            this.processExecutor.execute(processInstanceId);
+        });
+    }
+
+    @Override
+    public ProcessInstance executeSync(String processInstanceId) {
         this.processExecutor.execute(processInstanceId);
+        return this.processRepository.getProcessInstanceById(processInstanceId);
     }
 
     @Override

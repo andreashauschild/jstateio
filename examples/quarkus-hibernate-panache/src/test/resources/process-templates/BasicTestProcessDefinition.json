@@ -16,7 +16,7 @@
   ],
   "processors": [
     {
-      "clazz": "io.jstate.test.BasicFunctionTestProcessor",
+      "clazz": "io.jprocess.processors.BasicFunctionTestProcessor",
       "description": "For Testing Purpose",
       "properties": {
         "prop1": "value1",

@@ -78,4 +78,5 @@ public class StateEntity extends BaseEntity {
         this.processInstance = processInstanceEntity;
         return this;
     }
+
 }

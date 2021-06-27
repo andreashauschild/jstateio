@@ -1,0 +1,27 @@
+{
+  "$schema": "ProcessTemplate-schema.json",
+  "id": "id_1",
+  "stateDefinitions": [
+    {"id": "copyImagesToWorkingDir"},
+    {"id": "createMpegFromImages"},
+    {"id": "uploadMpegToServer"},
+    {"id": "cleanupWorkingDir"}
+  ],
+  "transitions": [
+    {"fromStateId": "NEW", "toStateIds": ["copyImagesToWorkingDir"]},
+    {"fromStateId": "copyImagesToWorkingDir", "toStateIds": ["createMpegFromImages"]},
+    {"fromStateId": "createMpegFromImages", "toStateIds": ["uploadMpegToServer"]},
+    {"fromStateId": "uploadMpegToServer", "toStateIds": ["cleanupWorkingDir"]},
+    {"fromStateId": "cleanupWorkingDir", "toStateIds": ["FINAL"]}
+  ],
+  "processors": [
+    {
+      "clazz": "io.jstate.test.BasicFunctionTestProcessor",
+      "description": "For Testing Purpose",
+      "properties": {
+        "prop1": "value1",
+        "prop2": "value2"
+      }
+    }
+  ]
+}

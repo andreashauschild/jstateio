@@ -6,29 +6,29 @@ import java.util.List;
 
 public class Transition implements Serializable {
 
-    private String fromStateId;
-    private List<String> toStateIds = new ArrayList<>();
+    private String fromState;
+    private List<String> toState = new ArrayList<>();
 
     /**
      * Gets the value of the fromStateId property.
      *
      * @return possible object is {@link String}
      */
-    public String getFromStateId() {
+    public String getFromState() {
 
-        return fromStateId;
+        return fromState;
     }
 
     /**
      * Sets the value of the fromStateId property
      *
-     * @param fromStateId
+     * @param fromState
      *            allowed object is {@link String }
      * @return the {@link Transition}
      */
-    public Transition setFromStateId(String fromStateId) {
+    public Transition setFromState(String fromState) {
 
-        this.fromStateId = fromStateId;
+        this.fromState = fromState;
         return this;
     }
 
@@ -37,21 +37,21 @@ public class Transition implements Serializable {
      *
      * @return possible object is {@link List< String>}
      */
-    public List<String> getToStateIds() {
+    public List<String> getToState() {
 
-        return toStateIds;
+        return toState;
     }
 
     /**
      * Sets the value of the toStateIds property
      *
-     * @param toStateIds
+     * @param toState
      *            allowed object is {@link List< String> }
      * @return the {@link Transition}
      */
-    public Transition setToStateIds(List<String> toStateIds) {
+    public Transition setToState(List<String> toState) {
 
-        this.toStateIds = toStateIds;
+        this.toState = toState;
         return this;
     }
 }

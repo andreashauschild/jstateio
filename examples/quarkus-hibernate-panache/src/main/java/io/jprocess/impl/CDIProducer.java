@@ -41,25 +41,26 @@ public class CDIProducer {
     @Produces
     @ApplicationScoped
     JProcessService produceJProcessService() {
-        return new DefaultJProcessService()
-                .setProcessExecutor(produceProcessExecutor())
+        DefaultJProcessService defaultJProcessService = new DefaultJProcessService()
                 .setProcessRepository(databaseProcessRepository)
                 .setTemplateRepository(databaseProcessTemplateRepository)
-                .setProcessExecutor(produceProcessExecutor())
                 .setExecutor(managedExecutor)
                 .setValidationService(produceJstateValidationService());
+
+        DefaultProcessExecutor defaultProcessExecutor = new
+                DefaultProcessExecutor()
+                .setProcessorFactory(produceProcessorFactory())
+                .setProcessService(defaultJProcessService)
+                .setTmplRepo(databaseProcessTemplateRepository);
+        ;
+        defaultJProcessService.setProcessExecutor(defaultProcessExecutor);
+        return defaultJProcessService;
     }
 
     @Produces
     @ApplicationScoped
     JstateValidationService produceJstateValidationService() {
         return new DefaultJstateValidationService(databaseProcessTemplateRepository);
-    }
-
-    @Produces
-    @ApplicationScoped
-    ProcessExecutor produceProcessExecutor() {
-        return new DefaultProcessExecutor().setProcessorFactory(produceProcessorFactory()).setProcessService(produceJProcessService());
     }
 
 

@@ -2,15 +2,17 @@
   "$schema": "ProcessTemplate-schema.json",
   "id": "id_1",
   "stateDefinitions": [
-    {"id": "copyImagesToWorkingDir"},
-    {"id": "createMpegFromImages"},
-    {"id": "uploadMpegToServer"},
-    {"id": "cleanupWorkingDir"}
+    {"name": "copyImagesToWorkingDir"},
+    {"name": "createMpegFromImages"},
+    {"name": "uploadMpegToServer"},
+    {"name": "cleanupWorkingDir"}
   ],
   "transitions": [
-    {"fromStateId": "", "toStateIds": ["copyImagesToWorkingDir"]},
-    {"fromStateId": "copyImagesToWorkingDir", "toStateIds": ["createMpegFromImages"]},
-    {"fromStateId": "createMpegFromImages", "toStateIds": ["uploadMpegToServer"]}
+    {"fromState": "NEW", "toState": ["copyImagesToWorkingDir"]},
+    {"fromState": "copyImagesToWorkingDir", "toState": ["createMpegFromImages"]},
+    {"fromState": "createMpegFromImages", "toState": ["uploadMpegToServer"]},
+    {"fromState": "uploadMpegToServer", "toState": ["cleanupWorkingDir"]},
+    {"fromState": "cleanupWorkingDir", "toState": ["FINAL"]}
   ],
   "processors": [
     {

@@ -5,6 +5,7 @@ import static io.jstate.spi.DefaultStates.FINAL;
 import static java.util.Arrays.asList;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -21,6 +22,7 @@ import io.jstate.spi.ProcessorFactory;
 import io.jstate.spi.State;
 import io.jstate.spi.exception.AlreadyReservedException;
 import io.jstate.spi.exception.TransitionNotAllowedException;
+import io.jstate.spi.exception.UnknownProcessorException;
 
 public class DefaultProcessExecutor implements ProcessExecutor {
 
@@ -53,6 +55,8 @@ public class DefaultProcessExecutor implements ProcessExecutor {
             logger.info("Execution of process with id '" + processInstanceId + "' is skipped. Process has already a reservation.");
         } catch (TransitionNotAllowedException e) {
             this.processService.toError(reserved.getReservationId(), e, newState.getProperties());
+        } catch (UnknownProcessorException e) {
+            this.processService.toError(reserved.getReservationId(), e, new HashMap<>());
         } finally {
             if (reserved != null) {
                 this.processService.cancel(reserved.getReservationId());
@@ -79,7 +83,7 @@ public class DefaultProcessExecutor implements ProcessExecutor {
                     result = newState;
                 }
             } else {
-                logger.info("Processor '" + processor.getClazz() + "' was not found in this VM and will be ignored.");
+                throw new UnknownProcessorException(processor.getClazz());
             }
         }
 
@@ -92,11 +96,11 @@ public class DefaultProcessExecutor implements ProcessExecutor {
             return false;
         }
 
-        if (stopExecutionState.contains(newState.getId())) {
+        if (stopExecutionState.contains(newState.getName())) {
             return false;
         }
 
-        return newState.getId() != oldState.getId();
+        return newState.getName() != oldState.getName();
     }
 
     /**
@@ -122,8 +126,7 @@ public class DefaultProcessExecutor implements ProcessExecutor {
     /**
      * Sets the value of the processService property
      *
-     * @param processService
-     *            allowed object is {@link JProcessService }
+     * @param processService allowed object is {@link JProcessService }
      * @return the {@link DefaultProcessExecutor}
      */
     public DefaultProcessExecutor setProcessService(JProcessService processService) {
@@ -145,8 +148,7 @@ public class DefaultProcessExecutor implements ProcessExecutor {
     /**
      * Sets the value of the processorFactory property
      *
-     * @param processorFactory
-     *            allowed object is {@link ProcessorFactory }
+     * @param processorFactory allowed object is {@link ProcessorFactory }
      * @return the {@link DefaultProcessExecutor}
      */
     public DefaultProcessExecutor setProcessorFactory(ProcessorFactory processorFactory) {
@@ -158,8 +160,7 @@ public class DefaultProcessExecutor implements ProcessExecutor {
     /**
      * Sets the value of the tmplRepo property
      *
-     * @param tmplRepo
-     *            allowed object is {@link ProcessTemplateRepository }
+     * @param tmplRepo allowed object is {@link ProcessTemplateRepository }
      * @return the {@link DefaultProcessExecutor}
      */
     public DefaultProcessExecutor setTmplRepo(ProcessTemplateRepository tmplRepo) {

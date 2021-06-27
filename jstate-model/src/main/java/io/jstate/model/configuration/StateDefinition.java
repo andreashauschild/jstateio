@@ -6,7 +6,7 @@ import java.util.List;
 
 public class StateDefinition implements Serializable {
 
-    private String id;
+    private String name;
 
     private String description;
 
@@ -17,21 +17,21 @@ public class StateDefinition implements Serializable {
      *
      * @return possible object is {@link String}
      */
-    public String getId() {
+    public String getName() {
 
-        return id;
+        return name;
     }
 
     /**
      * Sets the value of the id property
      *
-     * @param id
+     * @param name
      *            allowed object is {@link String }
      * @return the {@link StateDefinition}
      */
-    public StateDefinition setId(String id) {
+    public StateDefinition setName(String name) {
 
-        this.id = id;
+        this.name = name;
         return this;
     }
 

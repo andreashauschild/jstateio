@@ -5,6 +5,7 @@ import io.jprocess.mapper.ProcessTemplateMapper;
 import io.jstate.model.configuration.ProcessTemplate;
 import io.jstate.spi.ProcessDefinitionQuery;
 import io.jstate.spi.ProcessTemplateRepository;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -25,7 +26,8 @@ public class DatabaseProcessTemplateRepository implements ProcessTemplateReposit
 
     @Override
     public ProcessTemplate getProcessTemplate(String id) {
-        return null;
+        ProcessTemplateEntity byId = ProcessTemplateEntity.findById(id);
+        return templateMapper.toModel(byId);
     }
 
     @Override

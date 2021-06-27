@@ -18,8 +18,7 @@ public abstract class BasePropertyEntity extends BaseEntity {
     )
     private String value;
 
-    @Column(name = "PROP_VALUE_INDEXED",
-            nullable = false, length = 512)
+    @Column(name = "PROP_VALUE_INDEXED", length = 512)
     private String valueIndexed;
 
     @Column(name = "SHA256")

@@ -35,15 +35,15 @@ public class DefaultJstateValidationService implements JstateValidationService {
         }
 
         ProcessTemplate processTemplate = this.templateRepository.getProcessTemplate(processInstance.getProcessTemplateId());
-        Optional<Transition> first = processTemplate.getTransitions().stream().filter(s -> from.getId().equals(s.getFromStateId())).findFirst();
+        Optional<Transition> first = processTemplate.getTransitions().stream().filter(s -> from.getName().equals(s.getFromState())).findFirst();
 
-        if (first.isPresent() && !first.get().getToStateIds().contains(to.getId())) {
+        if (first.isPresent() && !first.get().getToState().contains(to.getName())) {
             throw new TransitionNotAllowedException(processInstance, from, to);
         } else if (!first.isPresent()) {
             throw new TransitionNotAllowedException("The given process template with id '"
                     + processInstance.getProcessTemplateId()
                     + "' does not define the state '"
-                    + from.getId()
+                    + from.getName()
                     + "'", from, to);
         }
 
@@ -62,13 +62,13 @@ public class DefaultJstateValidationService implements JstateValidationService {
                     + "'");
         }
 
-        Optional<Transition> first = processTemplate.getTransitions().stream().filter(s -> from.getId().equals(s.getFromStateId())).findFirst();
+        Optional<Transition> first = processTemplate.getTransitions().stream().filter(s -> from.getName().equals(s.getFromState())).findFirst();
 
-        if (first.isPresent() && !first.get().getToStateIds().contains(to.getId())) {
+        if (first.isPresent() && !first.get().getToState().contains(to.getName())) {
             throw new TransitionNotAllowedException(processTemplate, from, to);
         } else if (!first.isPresent()) {
             throw new TransitionNotAllowedException(
-                    "The given process template with id '" + processTemplate.getId() + "' does not define the state '" + from.getId() + "'", from,
+                    "The given process template with id '" + processTemplate.getId() + "' does not define the state '" + from.getName() + "'", from,
                     to);
         }
     }

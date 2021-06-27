@@ -33,7 +33,7 @@
           "description" : {
             "type" : "string"
           },
-          "id" : {
+          "name" : {
             "type" : "string"
           },
           "processors" : {
@@ -50,10 +50,10 @@
       "items" : {
         "type" : "object",
         "properties" : {
-          "fromStateId" : {
+          "fromState" : {
             "type" : "string"
           },
-          "toStateIds" : {
+          "toState" : {
             "type" : "array",
             "items" : {
               "type" : "string"

@@ -96,7 +96,7 @@ class DefaultProcessExecutorTest {
 
     private Transition transition(String from, String to) {
 
-        return new Transition().setFromStateId(from).setToStateIds(asList(to));
+        return new Transition().setFromState(from).setToState(asList(to));
     }
 
 }

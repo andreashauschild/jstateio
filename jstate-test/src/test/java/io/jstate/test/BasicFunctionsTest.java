@@ -122,14 +122,14 @@ public class BasicFunctionsTest {
         ProcessInstance instance = env.getJProcessService().create(testTemplate.getId(), props);
 
         Thread.sleep(100);
-        ProcessInstance execute = env.getJProcessService().get(instance.getId());
+        ProcessInstance execute = env.getJProcessService().executeSync(instance.getId());
         assertEquals(6, execute.getStates().size());
-        assertEquals(NEW, execute.getStates().get(0).getId());
-        assertEquals(COPY_IMAGES_TO_WORKING_DIR, execute.getStates().get(1).getId());
-        assertEquals(CREATE_MPEG_FROM_IMAGES, execute.getStates().get(2).getId());
-        assertEquals(UPLOAD_MPEG_TO_SERVER, execute.getStates().get(3).getId());
-        assertEquals(CLEANUP_WORKING_DIR, execute.getStates().get(4).getId());
-        assertEquals(FINAL, execute.getStates().get(5).getId());
+        assertEquals(NEW, execute.getStates().get(0).getName());
+        assertEquals(COPY_IMAGES_TO_WORKING_DIR, execute.getStates().get(1).getName());
+        assertEquals(CREATE_MPEG_FROM_IMAGES, execute.getStates().get(2).getName());
+        assertEquals(UPLOAD_MPEG_TO_SERVER, execute.getStates().get(3).getName());
+        assertEquals(CLEANUP_WORKING_DIR, execute.getStates().get(4).getName());
+        assertEquals(FINAL, execute.getStates().get(5).getName());
     }
 
     @Test

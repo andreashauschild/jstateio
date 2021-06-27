@@ -1,4 +1,4 @@
-package io.jstate.test;
+package io.jprocess.processors;
 
 import io.jstate.core.services.io.jstate.core.state.FinalState;
 import io.jstate.spi.ProcessInstance;
