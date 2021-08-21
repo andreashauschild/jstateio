@@ -11,7 +11,7 @@ import static io.jstate.spi.DefaultStates.ERROR;
 
 public class ErrorState extends State {
 
-    private final String PROP_ERROR_MESSAGE = ERROR + ".error";
+    private final String PROP_ERROR_MESSAGE = ERROR + ".reason";
 
     public ErrorState(Throwable e, Map<String, String> properties) {
 
@@ -25,12 +25,12 @@ public class ErrorState extends State {
         setEnd(LocalDateTime.now());
     }
 
-    public ErrorState(String errorMessage, Map<String, String> properties) {
+    public ErrorState(String reason, Map<String, String> properties) {
 
         setBegin(LocalDateTime.now());
         setName(ERROR);
         setId(ERROR);
-        getProperties().put(PROP_ERROR_MESSAGE, errorMessage);
+        getProperties().put(PROP_ERROR_MESSAGE, reason);
         if (properties != null) {
             getProperties().putAll(properties);
         }

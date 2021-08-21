@@ -10,14 +10,14 @@ import io.jstate.spi.State;
 
 public class CloseState extends State {
 
-    private final String PROP_MESSAGE = CLOSED + ".closed";
+    private final String PROP_MESSAGE = CLOSED + ".reason";
 
-    public CloseState(String closeMessage, Map<String, String> properties) {
+    public CloseState(String reason, Map<String, String> properties) {
 
         setBegin(LocalDateTime.now());
         setName(CLOSED);
         setId(CLOSED);
-        getProperties().put(PROP_MESSAGE, closeMessage);
+        getProperties().put(PROP_MESSAGE, reason);
         if (properties != null) {
             getProperties().putAll(properties);
         }

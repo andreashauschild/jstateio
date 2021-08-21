@@ -11,20 +11,20 @@ import io.jstate.spi.State;
 
 public class FinalState extends State {
 
-    public FinalState(Map<String, String> intialProperties) {
+    public FinalState(Map<String, String> props) {
 
         setBegin(LocalDateTime.now());
         setName(FINAL);
         setId(FINAL);
-        if (intialProperties != null) {
-            getProperties().putAll(intialProperties);
+        if (props != null) {
+            getProperties().putAll(props);
         }
         setEnd(LocalDateTime.now());
     }
 
     public FinalState() {
 
-        this(new HashMap<String, String>());
+        this(new HashMap<>());
 
     }
 

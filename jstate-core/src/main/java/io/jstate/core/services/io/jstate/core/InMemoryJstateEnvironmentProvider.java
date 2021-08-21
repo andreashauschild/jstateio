@@ -14,6 +14,7 @@ public class InMemoryJstateEnvironmentProvider {
     private InMemoryProcessTemplateRepository templateRepository;
     private InMemoryProcessRepository inMemoryProcessRepository;
     private DefaultJProcessService processService;
+    private DefaultJProcessUtilService processUtilService;
     private ProcessorFactory processorFactory;
     private DefaultProcessExecutor processExecutor;
     private JstateValidationService validationService;
@@ -37,7 +38,10 @@ public class InMemoryJstateEnvironmentProvider {
 
         processService = new DefaultJProcessService();
 
+        processUtilService = new DefaultJProcessUtilService();
+
         processExecutor.setProcessorFactory(this.processorFactory);
+        processExecutor.setProcessRepository(inMemoryProcessRepository);
         processExecutor.setProcessService(this.processService);
         processExecutor.setTmplRepo(templateRepository);
 
@@ -45,6 +49,9 @@ public class InMemoryJstateEnvironmentProvider {
         processService.setProcessRepository(inMemoryProcessRepository);
         processService.setTemplateRepository(templateRepository);
         processService.setValidationService(validationService);
+
+        processUtilService.setProcessRepository(inMemoryProcessRepository);
+        processUtilService.setValidationService(validationService);
 
     }
 
@@ -93,4 +100,7 @@ public class InMemoryJstateEnvironmentProvider {
         static final InMemoryJstateEnvironmentProvider INSTANCE = new InMemoryJstateEnvironmentProvider();
     }
 
+    public DefaultJProcessUtilService getProcessUtilService() {
+        return processUtilService;
+    }
 }

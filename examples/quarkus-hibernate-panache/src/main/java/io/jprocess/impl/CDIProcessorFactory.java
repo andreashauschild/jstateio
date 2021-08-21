@@ -1,6 +1,7 @@
 package io.jprocess.impl;
 
 import io.jstate.model.configuration.ProcessorDefinition;
+import io.jstate.spi.Processor;
 import io.jstate.spi.ProcessorFactory;
 import io.quarkus.arc.Arc;
 
@@ -10,8 +11,9 @@ import java.util.Optional;
 @ApplicationScoped
 public class CDIProcessorFactory implements ProcessorFactory {
 
+
     @Override
-    public <T> Optional<T> create(ProcessorDefinition definition, Class<T> type) {
+    public <T extends Processor> Optional<? extends Processor> create(ProcessorDefinition definition) {
         try {
             ;
             if (Arc.container().select(Class.forName(definition.getClazz())).isResolvable()) {

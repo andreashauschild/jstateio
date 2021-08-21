@@ -8,5 +8,5 @@ import io.jstate.model.configuration.ProcessorDefinition;
 
 public interface ProcessorFactory {
 
-    <T> Optional<T> create(ProcessorDefinition definition, Class<T> type);
+    Optional<Processor> create(ProcessorDefinition definition);
 }

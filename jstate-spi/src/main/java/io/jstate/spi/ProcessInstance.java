@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class ProcessInstance implements Serializable {
 
-    private String id;
+    private String id = UUID.randomUUID().toString();
 
     private String processTemplateId;
 
@@ -80,8 +81,7 @@ public class ProcessInstance implements Serializable {
     /**
      * Sets the value of the id property
      *
-     * @param id
-     *            allowed object is {@link String }
+     * @param id allowed object is {@link String }
      * @return the {@link ProcessInstance}
      */
     public ProcessInstance setId(String id) {
@@ -103,8 +103,7 @@ public class ProcessInstance implements Serializable {
     /**
      * Sets the value of the reservationId property
      *
-     * @param reservationId
-     *            allowed object is {@link String }
+     * @param reservationId allowed object is {@link String }
      * @return the {@link ProcessInstance}
      */
     public ProcessInstance setReservationId(String reservationId) {
@@ -126,8 +125,7 @@ public class ProcessInstance implements Serializable {
     /**
      * Sets the value of the reservationTime property
      *
-     * @param reservationTime
-     *            allowed object is {@link LocalDateTime }
+     * @param reservationTime allowed object is {@link LocalDateTime }
      * @return the {@link ProcessInstance}
      */
     public ProcessInstance setReservationTime(LocalDateTime reservationTime) {
@@ -139,8 +137,7 @@ public class ProcessInstance implements Serializable {
     /**
      * Sets the value of the states property
      *
-     * @param states
-     *            allowed object is {@link List< State> }
+     * @param states allowed object is {@link List< State> }
      * @return the {@link ProcessInstance}
      */
     public ProcessInstance setStates(List<State> states) {
@@ -162,8 +159,7 @@ public class ProcessInstance implements Serializable {
     /**
      * Sets the value of the processDefinitionId property
      *
-     * @param processTemplateId
-     *            allowed object is {@link String }
+     * @param processTemplateId allowed object is {@link String }
      * @return the {@link ProcessInstance}
      */
     public ProcessInstance setProcessTemplateId(String processTemplateId) {
@@ -185,8 +181,7 @@ public class ProcessInstance implements Serializable {
     /**
      * Sets the value of the created property
      *
-     * @param created
-     *            allowed object is {@link LocalDateTime }
+     * @param created allowed object is {@link LocalDateTime }
      * @return the {@link ProcessInstance}
      */
     public ProcessInstance setCreated(LocalDateTime created) {
@@ -208,8 +203,7 @@ public class ProcessInstance implements Serializable {
     /**
      * Sets the value of the lastUpdate property
      *
-     * @param lastUpdate
-     *            allowed object is {@link LocalDateTime }
+     * @param lastUpdate allowed object is {@link LocalDateTime }
      * @return the {@link ProcessInstance}
      */
     public ProcessInstance setLastUpdate(LocalDateTime lastUpdate) {
@@ -231,8 +225,7 @@ public class ProcessInstance implements Serializable {
     /**
      * Sets the value of the failCount property
      *
-     * @param errorCount
-     *            allowed object is int
+     * @param errorCount allowed object is int
      * @return the {@link ProcessInstance}
      */
     public ProcessInstance setErrorCount(int errorCount) {
@@ -254,8 +247,7 @@ public class ProcessInstance implements Serializable {
     /**
      * Sets the value of the runtime property
      *
-     * @param runTime
-     *            allowed object is long
+     * @param runTime allowed object is long
      * @return the {@link ProcessInstance}
      */
     public ProcessInstance setRunTime(long runTime) {
@@ -277,8 +269,7 @@ public class ProcessInstance implements Serializable {
     /**
      * Sets the value of the executionTime property
      *
-     * @param executionTime
-     *            allowed object is long
+     * @param executionTime allowed object is long
      * @return the {@link ProcessInstance}
      */
     public ProcessInstance setExecutionTime(long executionTime) {
@@ -300,8 +291,7 @@ public class ProcessInstance implements Serializable {
     /**
      * Sets the value of the stopped property
      *
-     * @param stopped
-     *            allowed object is boolean
+     * @param stopped allowed object is boolean
      * @return the {@link ProcessInstance}
      */
     public ProcessInstance setStopped(boolean stopped) {

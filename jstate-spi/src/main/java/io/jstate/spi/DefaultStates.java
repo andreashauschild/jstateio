@@ -13,6 +13,11 @@ public interface DefaultStates {
     String ERROR = "ERROR";
 
     /**
+     * This state is set to a process if the execution is paused and should not be scheduled
+     */
+    String PAUSED = "PAUSED";
+
+    /**
      * This state must be used of the process is complete in a defined way
      */
     String FINAL = "FINAL";

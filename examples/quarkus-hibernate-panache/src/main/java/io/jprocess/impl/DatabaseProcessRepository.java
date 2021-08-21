@@ -75,6 +75,26 @@ public class DatabaseProcessRepository implements ProcessRepository {
         return this.processInstanceMapper.toModel(instanceEntity);
     }
 
+    @Override
+    public boolean existsReservation(String reservationId) {
+        return false;
+    }
+
+    @Override
+    public void logInfo(String reservationId, String message) {
+
+    }
+
+    @Override
+    public void logError(String reservationId, String message) {
+
+    }
+
+    @Override
+    public void logWarning(String reservationId, String message) {
+
+    }
+
 
     @Override
     @Transactional

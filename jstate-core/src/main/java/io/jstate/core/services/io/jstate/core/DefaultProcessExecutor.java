@@ -2,6 +2,7 @@ package io.jstate.core.services.io.jstate.core;
 
 import static io.jstate.spi.DefaultStates.CLOSED;
 import static io.jstate.spi.DefaultStates.FINAL;
+import static io.jstate.spi.DefaultStates.PAUSED;
 import static java.util.Arrays.asList;
 
 import java.time.LocalDateTime;
@@ -14,8 +15,10 @@ import java.util.logging.Logger;
 import io.jstate.model.configuration.ProcessTemplate;
 import io.jstate.model.configuration.ProcessorDefinition;
 import io.jstate.spi.JProcessService;
+import io.jstate.spi.JProcessUtilService;
 import io.jstate.spi.ProcessExecutor;
 import io.jstate.spi.ProcessInstance;
+import io.jstate.spi.ProcessRepository;
 import io.jstate.spi.ProcessTemplateRepository;
 import io.jstate.spi.Processor;
 import io.jstate.spi.ProcessorFactory;
@@ -29,11 +32,15 @@ public class DefaultProcessExecutor implements ProcessExecutor {
     static final Logger logger = Logger.getLogger(DefaultProcessExecutor.class.getName());
     private ProcessTemplateRepository tmplRepo;
 
-    private Set<String> stopExecutionState = new HashSet<>(asList(CLOSED, FINAL));
+    private Set<String> stopExecutionState = new HashSet<>(asList(CLOSED, FINAL, PAUSED));
 
     private JProcessService processService;
 
+    private ProcessRepository processRepository;
+
     private ProcessorFactory processorFactory;
+
+    private JProcessUtilService processUtilService;
 
     @Override
     public void execute(String processInstanceId) {
@@ -54,9 +61,9 @@ public class DefaultProcessExecutor implements ProcessExecutor {
         } catch (AlreadyReservedException e) {
             logger.info("Execution of process with id '" + processInstanceId + "' is skipped. Process has already a reservation.");
         } catch (TransitionNotAllowedException e) {
-            this.processService.toError(reserved.getReservationId(), e, newState.getProperties());
+            this.processUtilService.toError(reserved.getReservationId(), e, newState.getProperties());
         } catch (UnknownProcessorException e) {
-            this.processService.toError(reserved.getReservationId(), e, new HashMap<>());
+            this.processUtilService.toError(reserved.getReservationId(), e, new HashMap<>());
         } finally {
             if (reserved != null) {
                 this.processService.cancel(reserved.getReservationId());
@@ -71,8 +78,11 @@ public class DefaultProcessExecutor implements ProcessExecutor {
 
         for (ProcessorDefinition processor : processTemplate.getProcessors()) {
             LocalDateTime start = LocalDateTime.now();
-            Optional<Processor> o = this.processorFactory.create(processor, Processor.class);
+            Optional<Processor> o = this.processorFactory.create(processor);
+
             if (o.isPresent()) {
+                o.get().setProcessInstance(reserved);
+                o.get().setProcessRepository(processRepository);
                 LocalDateTime end = LocalDateTime.now();
                 State newState = o.get().process(reserved);
 
@@ -99,8 +109,9 @@ public class DefaultProcessExecutor implements ProcessExecutor {
         if (stopExecutionState.contains(newState.getName())) {
             return false;
         }
-
-        return newState.getName() != oldState.getName();
+        System.out.println(oldState);
+        System.out.println(newState);
+        return !oldState.getName().equalsIgnoreCase(newState.getName());
     }
 
     /**
@@ -166,6 +177,16 @@ public class DefaultProcessExecutor implements ProcessExecutor {
     public DefaultProcessExecutor setTmplRepo(ProcessTemplateRepository tmplRepo) {
 
         this.tmplRepo = tmplRepo;
+        return this;
+    }
+
+    public DefaultProcessExecutor setProcessUtilService(JProcessUtilService processUtilService) {
+        this.processUtilService = processUtilService;
+        return this;
+    }
+
+    public DefaultProcessExecutor setProcessRepository(ProcessRepository processRepository) {
+        this.processRepository = processRepository;
         return this;
     }
 }

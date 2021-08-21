@@ -75,7 +75,7 @@ public class BasicFunctionsTest {
         assertEquals(2, updated.getStates().size());
         assertEquals(1, updated.getProperties().size());
         assertEquals("value1", updated.getProperties().get("prop1"));
-        assertEquals(COPY_IMAGES_TO_WORKING_DIR, updated.getCurrentState().getId());
+        assertEquals(COPY_IMAGES_TO_WORKING_DIR, updated.getCurrentState().getName());
         assertNotNull(updated.getCurrentState().getBegin());
         assertNotNull(updated.getCurrentState().getEnd());
         assertNotNull(updated.getLastUpdate());
@@ -130,6 +130,12 @@ public class BasicFunctionsTest {
         assertEquals(UPLOAD_MPEG_TO_SERVER, execute.getStates().get(3).getName());
         assertEquals(CLEANUP_WORKING_DIR, execute.getStates().get(4).getName());
         assertEquals(FINAL, execute.getStates().get(5).getName());
+
+        assertEquals(3, execute.getStates().get(1).getLogEntries().size());
+        assertEquals("info1", execute.getStates().get(1).getLogEntries().get(0).getMessage());
+
+        assertEquals(3, execute.getStates().get(5).getLogEntries().size());
+        assertEquals("info5", execute.getStates().get(5).getLogEntries().get(0).getMessage());
     }
 
     @Test
@@ -140,7 +146,7 @@ public class BasicFunctionsTest {
         props.put("prop1", "error");
         ProcessInstance instance = env.getJProcessService().create(testTemplate.getId(), new HashMap<>());
         ProcessInstance reserve = env.getJProcessService().reserve(instance.getId());
-        ProcessInstance toError = env.getJProcessService().toError(reserve.getReservationId(), "This is a error", props);
+        ProcessInstance toError = env.getProcessUtilService().toError(reserve.getReservationId(), "This is a error", props);
         assertEquals(2, toError.getStates().size());
         assertEquals(ERROR, toError.getStates().get(1).getId());
 
@@ -151,7 +157,7 @@ public class BasicFunctionsTest {
 
     private State state(String id, Map<String, String> props) {
 
-        State state = new State().setId(id);
+        State state = new State().setName(id);
         state.setProperties(props);
         return state;
     }

@@ -14,6 +14,15 @@ public interface ProcessRepository {
 
     ProcessInstance getProcessInstanceByReservationId(String reservationId);
 
+
+    boolean existsReservation(String reservationId);
+
+    void logInfo(String reservationId, String message);
+
+    void logError(String reservationId, String message);
+
+    void logWarning(String reservationId, String message);
+
     /**
      *
      * @param instanceId

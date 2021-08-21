@@ -55,8 +55,8 @@ class DefaultProcessExecutorTest {
         ProcessTemplate processTemplate = new ProcessTemplate().setProcessors(asList(new ProcessorDefinition()));
 
         State newState = new NewState(new HashMap<>());
-        State state1 = new State().setId("STATE1");
-        State state2 = new State().setId("STATE2");
+        State state1 = new State().setName("STATE1");
+        State state2 = new State().setName("STATE2");
         State finalState = new FinalState(new HashMap<>());
         ProcessInstance instance = new ProcessInstance();
         instance.getStates().add(newState);
@@ -69,19 +69,22 @@ class DefaultProcessExecutorTest {
             return instance;
         });
 
-        when(this.processorFactory.create(any(), any())).thenReturn(java.util.Optional.of((Processor) processInstance -> {
-            System.out.println(processInstance);
-            if (processInstance.getCurrentState().getId().equals(newState.getId())) {
-                return state1;
+
+        when(this.processorFactory.create(any())).thenReturn(java.util.Optional.of(new Processor() {
+            @Override
+            public State process(ProcessInstance processInstance) {
+                if (processInstance.getCurrentState().getName().equals(newState.getName())) {
+                    return state1;
+                }
+                if (processInstance.getCurrentState().getName().equals(state1.getName())) {
+                    return state2;
+                }
+                if (processInstance.getCurrentState().getName().equals(state2.getName())) {
+                    return finalState;
+                }
+                Assertions.fail("Should never be reached. Processing ends with FINAL State");
+                return null;
             }
-            if (processInstance.getCurrentState().getId().equals(state1.getId())) {
-                return state2;
-            }
-            if (processInstance.getCurrentState().getId().equals(state2.getId())) {
-                return finalState;
-            }
-            Assertions.fail("Should never be reached. Processing ends with FINAL State");
-            return null;
         }));
 
         this.subject.execute("id");

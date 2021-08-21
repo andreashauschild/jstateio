@@ -7,6 +7,7 @@ import java.util.concurrent.Executor;
 import io.jstate.core.services.io.jstate.core.state.CloseState;
 import io.jstate.core.services.io.jstate.core.state.ErrorState;
 import io.jstate.core.services.io.jstate.core.state.FinalState;
+import io.jstate.core.services.io.jstate.core.state.PauseState;
 import io.jstate.model.configuration.ProcessTemplate;
 import io.jstate.spi.JProcessService;
 import io.jstate.spi.JstateValidationService;
@@ -17,6 +18,7 @@ import io.jstate.spi.ProcessTemplateRepository;
 import io.jstate.spi.State;
 import io.jstate.spi.exception.AlreadyReservedException;
 import io.jstate.spi.exception.ProcessInstanceNotExistsException;
+import io.jstate.spi.exception.ProcessInstanceReservationNotExistsException;
 
 public class DefaultJProcessService implements JProcessService {
 
@@ -86,40 +88,7 @@ public class DefaultJProcessService implements JProcessService {
 
     @Override
     public ProcessInstance forceTransition(String reservationId, State toState) {
-
-        ProcessInstance process = this.processRepository.getProcessInstanceByReservationId(reservationId);
         return this.processRepository.updateProcessInstance(reservationId, toState);
-
-    }
-
-    @Override
-    public ProcessInstance toError(String reservationId, String errorMessage, Map<String, String> data) {
-
-        ProcessInstance process = this.processRepository.getProcessInstanceByReservationId(reservationId);
-        return this.processRepository.updateProcessInstance(reservationId, new ErrorState(errorMessage, data));
-    }
-
-    @Override
-    public ProcessInstance toError(String reservationId, Throwable e, Map<String, String> data) {
-
-        ProcessInstance process = this.processRepository.getProcessInstanceByReservationId(reservationId);
-        return this.processRepository.updateProcessInstance(reservationId, new ErrorState(e, data));
-    }
-
-    @Override
-    public ProcessInstance toClose(String reservationId, String message, Map<String, String> data) {
-
-        ProcessInstance process = this.processRepository.getProcessInstanceByReservationId(reservationId);
-        return this.processRepository.updateProcessInstance(reservationId, new CloseState(message, data));
-    }
-
-    @Override
-    public ProcessInstance toFinal(String reservationId, Map<String, String> data) {
-
-        ProcessInstance process = this.processRepository.getProcessInstanceByReservationId(reservationId);
-        FinalState finalState = new FinalState(data);
-        this.validationService.checkTransition(process, process.getCurrentState(), finalState);
-        return this.processRepository.updateProcessInstance(reservationId, finalState);
     }
 
     /**
@@ -214,4 +183,6 @@ public class DefaultJProcessService implements JProcessService {
         this.executor = executor;
         return this;
     }
+
+
 }

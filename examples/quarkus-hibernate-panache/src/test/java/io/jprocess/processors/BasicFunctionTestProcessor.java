@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 import static io.jstate.spi.DefaultStates.NEW;
 
-public class BasicFunctionTestProcessor implements Processor {
+public class BasicFunctionTestProcessor extends Processor {
 
     static final Logger logger = Logger.getLogger(BasicFunctionTestProcessor.class.getName());
 

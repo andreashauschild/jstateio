@@ -6,7 +6,6 @@ import io.jstate.core.services.io.jstate.core.DefaultProcessExecutor;
 import io.jstate.core.services.io.jstate.core.DefaultProcessInstanceFactory;
 import io.jstate.spi.JProcessService;
 import io.jstate.spi.JstateValidationService;
-import io.jstate.spi.ProcessExecutor;
 import io.jstate.spi.ProcessInstanceFactory;
 import io.jstate.spi.ProcessorFactory;
 import org.eclipse.microprofile.context.ManagedExecutor;

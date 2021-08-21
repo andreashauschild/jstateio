@@ -1,17 +1,19 @@
 package io.jstate.core.services.io.jstate.core;
 
-import java.util.Optional;
-
 import io.jstate.model.configuration.ProcessorDefinition;
+import io.jstate.spi.Processor;
 import io.jstate.spi.ProcessorFactory;
+
+import java.util.Optional;
 
 public class DefaultProcessorFactory implements ProcessorFactory {
 
-    @Override
-    public <T> Optional<T> create(ProcessorDefinition definition, Class<T> type) {
 
+    @Override
+    public Optional<Processor> create(ProcessorDefinition definition) {
         try {
-            return Optional.of((T) Class.forName(definition.getClazz()).getDeclaredConstructor().newInstance());
+            Processor o = (Processor) Class.forName(definition.getClazz()).getDeclaredConstructor().newInstance();
+            return Optional.of(o);
         } catch (Exception e) {
             return Optional.empty();
         }
