@@ -16,6 +16,7 @@ import io.jstate.spi.State;
 import io.jstate.spi.exception.AlreadyReservedException;
 import io.jstate.spi.exception.ProcessInstanceNotExistsException;
 import io.jstate.spi.exception.ProcessInstanceReservationNotExistsException;
+import io.jstate.spi.exception.ProcessTemplateNotExistsException;
 import org.mapstruct.factory.Mappers;
 
 import javax.persistence.EntityManager;
@@ -55,11 +56,11 @@ public class DatabaseProcessRepository implements ProcessRepository {
     public ProcessInstance updateProcessInstance(String reservationId, State state) {
         this.entityManager.getTransaction().begin();
         if (reservationId == null) {
-            throw new RuntimeException("Error: Missing reservation id");
+            throw new ProcessInstanceReservationNotExistsException(reservationId);
         }
 
         if (state == null) {
-            throw new RuntimeException("Error: Missing state");
+            throw new NullPointerException("Error: State is null");
         }
 
         ProcessInstanceEntity process = getProcessInstanceEntityByReservation(reservationId);
@@ -145,18 +146,17 @@ public class DatabaseProcessRepository implements ProcessRepository {
     }
 
     @Override
+    public ProcessInstance createProcessInstance(String processTemplateId, Map<String, String> initialProperties) {
 
-    public ProcessInstance createProcessInstance(String processDefinitionId, Map<String, String> initialProperties) {
-
-        ProcessTemplate processTemplate = this.templateRepository.getProcessTemplate(processDefinitionId);
+        ProcessTemplate processTemplate = this.templateRepository.getProcessTemplate(processTemplateId);
         if (processTemplate == null) {
             // TODO define exception
-            throw new RuntimeException("ProcessDefinition with id " + processDefinitionId + " does not exists");
+            throw new ProcessTemplateNotExistsException(processTemplateId);
         }
         this.entityManager.getTransaction().begin();
         ProcessInstance processInstance = factory.create(processTemplate, initialProperties);
         ProcessInstanceEntity processInstanceEntity = this.processInstanceMapper.toEntity(processInstance);
-        processInstanceEntity.setProcessTemplate(this.entityManager.find(ProcessTemplateEntity.class, UUID.fromString(processDefinitionId)));
+        processInstanceEntity.setProcessTemplate(this.entityManager.find(ProcessTemplateEntity.class, UUID.fromString(processTemplateId)));
         this.processInstanceDAO.save(processInstanceEntity);
         this.entityManager.getTransaction().commit();
         return this.processInstanceMapper.toModel(processInstanceEntity);

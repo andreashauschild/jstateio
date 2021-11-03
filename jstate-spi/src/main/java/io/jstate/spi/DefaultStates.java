@@ -18,7 +18,7 @@ public interface DefaultStates {
     String PAUSED = "PAUSED";
 
     /**
-     * This state must be used of the process is complete in a defined way
+     * This state must be used if the process is complete in a defined way
      */
     String FINAL = "FINAL";
 

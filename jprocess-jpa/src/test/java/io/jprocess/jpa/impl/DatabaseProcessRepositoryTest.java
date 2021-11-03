@@ -5,9 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jstate.core.services.io.jstate.core.DefaultProcessInstanceFactory;
 import io.jstate.model.configuration.ProcessTemplate;
 import io.jstate.spi.ProcessInstance;
+import io.jstate.spi.exception.ProcessTemplateNotExistsException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -69,20 +71,40 @@ class DatabaseProcessRepositoryTest {
         f1.set(this.subject, databaseProcessTemplateRepository);
     }
 
+
     @Test
+    @DisplayName("Test createProcessInstance happy flow.")
     void test001() {
         Map<String, String> props = new HashMap<>();
         props.put("prop1", "value1");
         props.put("prop2", "value2");
-        ProcessInstance created = this.subject.createProcessInstance(processTemplate.getId(), props);
-
+        ProcessInstance created = this.subject.createProcessInstance(UUID.randomUUID().toString(), props);
         ProcessInstance instance = this.subject.getProcessInstanceById(created.getId());
-        assertEquals(created.getId(),instance.getId());
-        assertEquals(2,instance.getProperties().size());
-        assertEquals("value1",instance.getProperties().get("prop1"));
-        assertEquals("value2",instance.getProperties().get("prop2"));
+        assertEquals(created.getId(), instance.getId());
+        assertEquals(2, instance.getProperties().size());
+        assertEquals("value1", instance.getProperties().get("prop1"));
+        assertEquals("value2", instance.getProperties().get("prop2"));
+    }
 
-
+    @Test
+    @DisplayName("Test Exception: createProcessInstance with non existing process template.")
+    void test020() {
+        try {
+            this.subject.createProcessInstance(UUID.randomUUID().toString(), null);
+        } catch (ProcessTemplateNotExistsException e) {
+            return;
+        }
+        fail("ProcessTemplateNotExistsException expected");
+    }
+    @Test
+    @DisplayName("Test Exception: createProcessInstance with non existing process template.")
+    void test030() {
+        try {
+            this.subject.createProcessInstance(UUID.randomUUID().toString(), null);
+        } catch (ProcessTemplateNotExistsException e) {
+            return;
+        }
+        fail("ProcessTemplateNotExistsException expected");
     }
 
 }

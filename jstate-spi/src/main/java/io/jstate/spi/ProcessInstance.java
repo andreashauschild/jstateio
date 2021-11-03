@@ -34,7 +34,7 @@ public class ProcessInstance implements Serializable {
     private long runTime;
 
     /**
-     * Sum of time that was need for executing a state
+     * Sum of time that was needed for executing a state
      */
     private long executionTime;
 
